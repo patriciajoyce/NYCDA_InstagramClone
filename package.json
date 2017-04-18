@@ -1,0 +1,22 @@
+{
+  "name": "nycda_instagramclone",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/patriciajoyce/NYCDA_InstagramClone.git"
+  },
+  "author": "Team Oz-some",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/patriciajoyce/NYCDA_InstagramClone/issues"
+  },
+  "homepage": "https://github.com/patriciajoyce/NYCDA_InstagramClone#readme",
+  "dependencies": {
+    "express": "^4.15.2"
+  }
+}
