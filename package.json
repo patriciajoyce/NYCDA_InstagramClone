@@ -1,0 +1,31 @@
+{
+  "name": "instaclone",
+  "version": "1.0.0",
+  "description": "Documentation of Instagram assignment as discussed between Team Oz-some during 4/13 class.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "./node_modules/.bin/supervisor js/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/patriciajoyce/NYCDA_InstagramClone.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/patriciajoyce/NYCDA_InstagramClone/issues"
+  },
+  "homepage": "https://github.com/patriciajoyce/NYCDA_InstagramClone#readme",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "express-session": "^1.15.2",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "sqlite": "^2.5.0"
+  },
+  "devDependencies": {
+    "supervisor": "^0.12.0"
+  }
+}
