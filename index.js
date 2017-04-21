@@ -1,25 +1,26 @@
 const express = require('express');
 const db = require('sqlite');
+const API = require('./apiRoutes');
+// const AUTH = require('./authRoutes')
 
 let app = express();
 const port = 1133;
 
-const DB_NAME = '../database.sqlite';
+const DB_NAME = './database.sqlite';
 const socket = require('./sqliteui/websocket');
 
-app.use('/', express.static('./js/sqliteui/public', {
+app.use('/', express.static('./sqliteui/public', {
     'index': ['index.html']
 }));
+
+// app.use('/', express.static('./public'));
+
 
 const SocketInst = socket(DB_NAME, app);
 app = SocketInst.app;
 
-// this is sqliteui stuff
-
-
-
-// app.use('/api', );
-
+app.use('/api', API);
+// app.use('/auth',Auth);
 
 Promise.resolve()
     .then(() => db.open(DB_NAME, { Promise }))
