@@ -1,7 +1,7 @@
 const express = require('express');
 const db = require('sqlite');
 const API = require('./apiRoutes');
-// const AUTH = require('./authRoutes')
+const AUTH = require('./authRoutes')
 
 let app = express();
 const port = 1133;
@@ -13,7 +13,7 @@ app.use('/', express.static('./sqliteui/public', {
     'index': ['index.html']
 }));
 
-// app.use('/', express.static('./public'));
+app.use('/', express.static('./public'));
 
 
 const SocketInst = socket(DB_NAME, app);
