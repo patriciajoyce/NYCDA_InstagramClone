@@ -14,7 +14,7 @@ const parser = require('body-parser');
 router.use(parser.json())
 
 router.get('/users', (req, res, next) => {
-	instaClone.getUsers(req, res)
+	instaClone.getAllUsers(req, res)
         .then((data) => {
             res.header('Content-Type', 'application/json');
             res.send({ users: data });
