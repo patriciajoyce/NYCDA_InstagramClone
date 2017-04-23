@@ -5,17 +5,21 @@ const instaClone = {};
 
 
 instaClone.createNewUser = (email, name, password) => {
-	if (!email || !name || !password) {
+  // const {username, email, password, age} = req.body;
+  if (!username || !email || !password || !age) {
 		throw console.error('Invalid Input');
 	}
-  return db.run(`INSERT INTO users(username, email, password, age) VALUES`)
+  return db.run(`INSERT INTO users(username, email, password, age) VALUES (?,?,?,?)`,[username, email, password, age])
 }
-// instaClone.createNewAct = (user_id, req) => {
-//     return db.run(`INSERT INTO activities (user_id, image_url, comment) values (${user_id}, $image_url, $comment)`, req)
-// };
-//
 
-instaClone.getFollows = (currUser_id) => {
+
+// instaClone.
+
+
+
+
+
+instaClone.getFollowers = (currUser_id) => {
  return db.all (`SELECT
   users.username AS Username,
   activities.image_url AS Image,
