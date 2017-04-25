@@ -1,9 +1,10 @@
 const express = require('express');
 const db = require('sqlite');
 const API = require('./apiRoutes');
-const AUTH = require('./authRoutes')
+const signup = require('./signup')
+const Auth = require('./authRoutes')
 
-let app = express();
+const app = express();
 const port = 1133;
 
 const DB_NAME = './database.sqlite';
@@ -15,23 +16,23 @@ const DB_NAME = './database.sqlite';
 //       'signup': ['signup.html']
 //  }));
 
-app.use('/', express.static('./public', {
-    'index': ['index.html'],
+app.use('/', express.static('public', {
+    'feed': ['feed.html'],
     'login': ['login.html'],
-    'signup': ['signup.html']
+    'signup': ['signup.html'],
+    'profile': ['profile.html']
 }));
+
+
+
 
 // const SocketInst = socket(DB_NAME, app);
 // app = SocketInst.app;
 
 app.use('/api', API);
-app.use(AUTH);
+app.use(signup);
+app.use(Auth);
 
-// LOGOUT
-app.use('/logout', (request , response) => {
-  request.logout();
-  response.redirect('/');
-});
 
 Promise.resolve()
     .then(() => db.open(DB_NAME, { Promise }))
