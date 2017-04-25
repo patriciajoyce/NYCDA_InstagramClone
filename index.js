@@ -9,18 +9,27 @@ const port = 1133;
 const DB_NAME = './database.sqlite';
 const socket = require('./sqliteui/websocket');
 
+// app.use('/', express.static('./sqliteui/public', {
+//     'index': ['index.html']
+// }));
+
 app.use('/', express.static('./sqliteui/public', {
-    'index': ['index.html']
+    'index': ['index.html'],
+    'login': ['login.html'],
+    'signup': ['signup.html']
 }));
-
-app.use('/', express.static('./public'));
-
 
 const SocketInst = socket(DB_NAME, app);
 app = SocketInst.app;
-
+//
 app.use('/api', API);
-// app.use('/auth',Auth);
+app.use('/auth', AUTH);
+
+// LOGOUT
+app.use('/logout', (req , res) => {
+  req.logout();
+  res.redirect('/');
+});
 
 Promise.resolve()
     .then(() => db.open(DB_NAME, { Promise }))

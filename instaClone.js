@@ -4,8 +4,7 @@ const DB_NAME = './database.sqlite';
 const instaClone = {};
 
 
-instaClone.createNewUser = (email, name, password) => {
-  // const {username, email, password, age} = req.body;
+instaClone.createNewUser = (username, email, password,age) => {
   if (!username || !email || !password || !age) {
 		throw console.error('Invalid Input');
 	}
