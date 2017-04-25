@@ -7,30 +7,30 @@ let app = express();
 const port = 1133;
 
 const DB_NAME = './database.sqlite';
-const socket = require('./sqliteui/websocket');
+// const socket = require('./sqliteui/websocket');
 
-app.use('/', express.static('./sqliteui/public', {
-      'index': ['index.html'],
-      'login': ['login.html'],
-      'signup': ['signup.html']
- }));
+// app.use('/', express.static('./sqliteui/public', {
+//       'index': ['index.html'],
+//       'login': ['login.html'],
+//       'signup': ['signup.html']
+//  }));
 
-// app.use('/', express.static('./public', {
-//     'index': ['index.html'],
-//     'login': ['login.html'],
-//     'signup': ['signup.html']
-// }));
+app.use('/', express.static('./public', {
+    'index': ['index.html'],
+    'login': ['login.html'],
+    'signup': ['signup.html']
+}));
 
-const SocketInst = socket(DB_NAME, app);
-app = SocketInst.app;
-//
+// const SocketInst = socket(DB_NAME, app);
+// app = SocketInst.app;
+
 app.use('/api', API);
-app.use('/auth', AUTH);
+app.use(AUTH);
 
 // LOGOUT
-app.use('/logout', (req , res) => {
-  req.logout();
-  res.redirect('/');
+app.use('/logout', (request , response) => {
+  request.logout();
+  response.redirect('/');
 });
 
 Promise.resolve()
