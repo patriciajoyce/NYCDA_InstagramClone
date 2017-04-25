@@ -4,8 +4,7 @@ const DB_NAME = './database.sqlite';
 const instaClone = {};
 
 
-instaClone.createNewUser = (email, name, password) => {
-  // const {username, email, password, age} = req.body;
+instaClone.createNewUser = (username, email, password,age) => {
   if (!username || !email || !password || !age) {
 		throw console.error('Invalid Input');
 	}
@@ -47,16 +46,13 @@ instaClone.getUser = (user_id) => {
 
 
 instaClone.getAllUsers = () => {
-    return db.all(`SELECT
-                    users.username AS Username,
-                    activities.image_url AS Image,
-                    activities.comment AS Comment,
-                    activities.created AS Posted
-                FROM users
-                    INNER JOIN activities on user_id = id`)
+    return db.all(`SELECT * FROM users`)
 };
 
 
+instaClone.loginUser = (username, password) => {
+    return db.get(`SELECT id, username FROM users WHERE username = '${username}' AND password = '${password}'`)
+}
 
 
 
