@@ -14,25 +14,25 @@ const expressSession = require('express-session');
 signUp.use(parser.json());
 
 signUp.use(expressSession({
-	secret: 'WorkDamnYou'
+  secret: 'WorkDamnYou'
 }));
 
 
 signUp.post('/auth/signup', (request, response) => {
-		// const {body} = request;
-		// const {username, email, password} = request.body;
-		const newUserCreated = instaClone.createNewUser(request.body)
-				.then((data) => {
-					console.log(data)
-					  response.header('Content-Type', 'application/json');
-            response.send({
-                success: true
-            })
-        })
-        .catch((e) => {
-            console.log(e)
-            response.status(401);
-        });
+  // const {body} = request;
+  // const {username, email, password} = request.body;
+  const newUserCreated = instaClone.createNewUser(request.body)
+    .then((data) => {
+      console.log(data)
+      response.header('Content-Type', 'application/json');
+      response.send({
+        success: true
+      })
+    })
+    .catch((e) => {
+      console.log(e)
+      response.status(401);
+    });
 
 });
 
