@@ -6,7 +6,7 @@ const parser = require('body-parser');
 const Users = require('./instaClone')
 const expressSession = require('express-session');
 
-let authApp = express();
+const authApp = express();
 
 
 authApp.use(parser.json())
@@ -46,6 +46,12 @@ passport.use(new LocalStrategy({
 authApp.use(passport.initialize());
 authApp.use(passport.session());
 
+authApp.get('/auth/logout', (request, response, next) => {
+        console.log('in /auth/logout ')
+        request.logout();
+        next();
+    });
+
 
 authApp.post('/auth/login', (request, response, next) => {
   console.log('IN /login');
@@ -73,31 +79,15 @@ authApp.post('/auth/login', (request, response, next) => {
 });
 
 
-authApp.use((request, response, next) => {
+authApp.use((request, response) => {
   console.log('in authRoutes')
   if (request.isAuthenticated()) {
-    next();
+    // next();
   }
   else {
     response.status(403)
     response.send({success: false})
 }
-});
-
-
-authApp.post('/auth/signup', (request, response) => {
-  const body = request.body;
-  const isCreated = Users.createNewUser(body)
-    .then((data) => {
-      response.header('Content-Type', 'application/json');
-      response.send({
-        success: true
-      })
-    })
-    .catch((e) => {
-      console.log(e)
-      response.status(401);
-    });
 });
 
 

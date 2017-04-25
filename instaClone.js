@@ -4,12 +4,10 @@ const DB_NAME = './database.sqlite';
 const instaClone = {};
 
 
-instaClone.createNewUser = (username, email, password,age) => {
-  if (!username || !email || !password || !age) {
-		throw console.error('Invalid Input');
-	}
-  return db.run(`INSERT INTO users(username, email, password, age) VALUES (?,?,?,?)`,[username, email, password, age])
-}
+instaClone.createNewUser = (request) => {
+  const {username, email, password} = request;
+  return db.run(`INSERT INTO users(username, email, password) VALUES (?,?,?)`, [username,email,password])
+};
 
 
 // instaClone.
