@@ -35,8 +35,9 @@ passport.use(new LocalStrategy({
     passwordField: 'password',
   },
   (username, password, done) => {
-    Users.loginUser(username, password)
+    db.run(`SELECT id, username FROM users WHERE username = '${username}' AND password = '${password}'`)
       .then((valid) => {
+        console.log("VALID: ",valid);
         if (!valid) return done(null, false);
         return done(null, valid);
       })
@@ -47,14 +48,15 @@ passport.use(new LocalStrategy({
 authApp.use(passport.initialize());
 authApp.use(passport.session());
 
-authApp.get('/auth/logout', (request, response, next) => {
+authApp.get('/logout', (request, response, next) => {
         console.log('in /auth/logout ')
         request.logout();
         next();
     });
 
 
-authApp.post('/auth/login', (request, response, next) => {
+authApp.post('/login', (request, response, next) => {
+  console.log("LOGIN:  ",request.body);
   console.log('IN /login');
 
   passport.authenticate('local', (err, user, info) => {

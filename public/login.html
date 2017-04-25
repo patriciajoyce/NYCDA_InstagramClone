@@ -2,21 +2,50 @@
 <html>
 <head>
 	<title>InstaAwesome</title>
-	<link rel="stylesheet" href="semantic.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/components/button.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/components/form.min.css">
+	<link rel="stylesheet" href="./style/login.css">
 </head>
 <body>
 	<h1>WELCOME TO INSTAWESOME</h1>
-	<div>
-		<form class="ui-form">  		
-  		<div class="email">
-    		<label>email</label>
-    			<input type="text" name="email" placeholder="Enter email">
-		   <label>Password</label>
- 		   <input type="Password" name="password" placeholder="Password">
- 		   <div class="field">
- 		 <button class="js-login" type="button">Login</button>
-	</form>
-	
-		<script type="text/javascript" src="js/login.js"></script>
+	<section>
+		<div class="login">
+			<h1>Login</h1>
+			<form class="ui form">
+				<div class="field">
+					<label>UserName</label>
+					<input type="text" name="first-name" placeholder="UserName" class="js-loginUserName">
+				</div>
+				<div class="field">
+					<label>Password</label>
+					<input type="password" name="last-name" placeholder="Password" class="js-loginPassword">
+				</div>
+				<button class="ui buton js-loginSubmit" type="submit">Submit</button>
+			</form>
+		</div>
+
+		<div class="signup">
+			<h1>SignUp</h1>
+			<form class="ui form">
+				<div class="field">
+					<label>UserName</label>
+					<input type="text" name="User-name" placeholder="Username" class="js-signUpUserName">
+				</div>
+				<div class="field">
+					<label>Email</label>
+					<input type="text" name="Email" placeholder="Email" class="js-signUpEmail">
+				</div>
+				<div class="field">
+					<label>Password</label>
+					<input type="password" name="Password" placeholder="Password" class="js-signUpPassword">
+				</div>
+				<button class="ui button js-signUpSubmit" type="submit" class="js-signUpSubmit">Submit</button>
+			</form>
+		</div>
+	</section>
+
+
+
+		<script type="text/javascript" src="./js/login.js"></script>
 </body>
 </html>
