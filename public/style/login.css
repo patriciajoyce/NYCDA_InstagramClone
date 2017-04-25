@@ -1,0 +1,11 @@
+section{
+  display: flex;
+}
+
+section .login{
+  width: 50%;
+}
+
+section .signup{
+  width: 50%;
+}
