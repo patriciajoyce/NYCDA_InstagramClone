@@ -9,15 +9,17 @@ const port = 1133;
 const DB_NAME = './database.sqlite';
 const socket = require('./sqliteui/websocket');
 
-// app.use('/', express.static('./sqliteui/public', {
-//     'index': ['index.html']
-// }));
-
 app.use('/', express.static('./sqliteui/public', {
-    'index': ['index.html'],
-    'login': ['login.html'],
-    'signup': ['signup.html']
-}));
+      'index': ['index.html'],
+      'login': ['login.html'],
+      'signup': ['signup.html']
+ }));
+
+// app.use('/', express.static('./public', {
+//     'index': ['index.html'],
+//     'login': ['login.html'],
+//     'signup': ['signup.html']
+// }));
 
 const SocketInst = socket(DB_NAME, app);
 app = SocketInst.app;

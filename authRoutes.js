@@ -1,5 +1,5 @@
 const express = require('express');
-// const db = require('sqlite');
+const db = require('sqlite');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const parser = require('body-parser');
@@ -29,17 +29,16 @@ authApp.use(expressSession({
   *	passport strategies, middleware
   */
 
-  passport.use(new LocalStrategy(
-    (username, password, done) => {
-      db.get(`SELECT id, username FROM users WHERE username IS '${username}' AND password = '${password}'`)
-        .then((row) => {
-          if (!row) return done(null, false);
-          return done(null, row);
-        })
-        .catch(err => console.error(err.stack))
-    }
-  ));
+  passport.use(new LocalStrategy({
+    usernameField: 'username',
+    passwordField: 'password',
+}, (username, password, done) => {
 
+    if (!username || !password) {
+        return done('Not Valid', {}, {});
+    }
+    return done(null, { success: true });
+}));
 
 
 
@@ -53,7 +52,7 @@ authApp.use(expressSession({
        passport.authenticate('local', (err, user, info) => {
        	console.log('IN passport.authenticate')
            if (err||!user){
-           console.log(err)
+           console.log(err, user, info);
               next()
            };
            request.logIn(user, (err) => {
@@ -63,8 +62,8 @@ authApp.use(expressSession({
                console.log(request.session)
                // if we are here, user has logged in!
                response.header('Content-Type', 'application/json');
-               response.send({ success: true, id : user.id});
                response.redirect('/feed.html')
+               response.send({ success: true});
                   next()
            });
        })(request, response, next);

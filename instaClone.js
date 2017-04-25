@@ -46,13 +46,7 @@ instaClone.getUser = (user_id) => {
 
 
 instaClone.getAllUsers = () => {
-    return db.all(`SELECT
-                    users.username AS Username,
-                    activities.image_url AS Image,
-                    activities.comment AS Comment,
-                    activities.created AS Posted
-                FROM users
-                    INNER JOIN activities on user_id = id`)
+    return db.all(`SELECT * FROM users`)
 };
 
 
