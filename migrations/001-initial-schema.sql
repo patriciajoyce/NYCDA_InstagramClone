@@ -3,8 +3,8 @@ CREATE TABLE users(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username VARCHAR NOT NULL,
     email VARCHAR NOT NULL,
-    password VARCHAR(15) NOT NULL,
-    age INTEGER CHECK (age >= 18)
+    password VARCHAR(15) NOT NULL
+    -- age INTEGER CHECK (age >= 18)
 );
 CREATE TABLE follows(
     user_id INTEGER NOT NULL,
@@ -21,10 +21,10 @@ CREATE TABLE activities(
 );
 
 
-INSERT into users (username, email, password, age) VALUES ('Oz', 'p@email.com', 'ppassword',32);
-INSERT into users (username, email, password, age) VALUES ('Dani', 'h@email.com', 'epassword',32);
-INSERT into users (username, email, password, age) VALUES ('Mar', 'o@email.com', 'opassword',32);
-INSERT into users (username, email, password, age) VALUES ('Kat','sb@email.come', 'bpassword',32);
+INSERT into users (username, email, password) VALUES ('Oz', 'p@email.com', 'ppassword');
+INSERT into users (username, email, password) VALUES ('Dani', 'h@email.com', 'epassword');
+INSERT into users (username, email, password) VALUES ('Mar', 'o@email.com', 'opasswor');
+INSERT into users (username, email, password) VALUES ('Kat','sb@email.come', 'bpassword');
 
 
 INSERT into follows (user_id, followed_id) VALUES (1,2);
