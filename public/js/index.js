@@ -1,5 +1,11 @@
 (function() {
 
+
+
+
+
+
+    console.log(login);
     const GET = (url = null) => {
         return new Promise((resolve, reject) => {
             if (url === null) {
@@ -95,4 +101,5 @@
             });
         });
     }
+
 })();

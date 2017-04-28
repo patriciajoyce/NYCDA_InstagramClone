@@ -1,10 +1,9 @@
 --UP
 CREATE TABLE users(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username VARCHAR NOT NULL,
-    email VARCHAR NOT NULL,
-    password VARCHAR(15) NOT NULL
-    -- age INTEGER CHECK (age >= 18)
+    username TEXT NOT NULL,
+    email TEXT NOT NULL,
+    password TEXT NOT NULL
 );
 CREATE TABLE follows(
     user_id INTEGER NOT NULL,
@@ -15,32 +14,19 @@ CREATE TABLE activities(
     feed_id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER NOT NULL,
     image_url TEXT NOT NULL,
-    comment VARCHAR(180),
+    comments CHAR(180),
     created DATETIME TEXT DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY(user_id) REFERENCES users(id)
 );
 
-
-INSERT into users (username, email, password) VALUES ('Oz', 'p@email.com', 'ppassword');
-INSERT into users (username, email, password) VALUES ('Dani', 'h@email.com', 'epassword');
-INSERT into users (username, email, password) VALUES ('Mar', 'o@email.com', 'opasswor');
-INSERT into users (username, email, password) VALUES ('Kat','sb@email.come', 'bpassword');
-
+INSERT into users (username, email, password) VALUES ('Oz', 'ozz@email.com', 'passsssword');
+INSERT into users (username, email, password) VALUES ('Dani', 'dani@email.com', 'passsssword2');
 
 INSERT into follows (user_id, followed_id) VALUES (1,2);
-INSERT into follows (user_id, followed_id) VALUES (2,3);
-INSERT into follows (user_id, followed_id) VALUES (3,4);
-INSERT into follows (user_id, followed_id) VALUES (4,2);
+INSERT into follows (user_id, followed_id) VALUES (2,1);
 
-INSERT into activities (user_id, image_url, comment) VALUES (1, 'https://static.pexels.com/photos/101569/pexels-photo-101569.jpeg', 'My new backyard');
-INSERT into activities (user_id, image_url, comment) VALUES (1, 'https://static.pexels.com/photos/197756/pexels-photo-197756.jpeg', 'My new frontyard');
-INSERT into activities (user_id, image_url, comment) VALUES (2, 'https://static.pexels.com/photos/101569/pexels-photo-101569.jpeg', 'My new backyard');
-INSERT into activities (user_id, image_url, comment) VALUES (3, 'https://static.pexels.com/photos/197756/pexels-photo-197756.jpeg', 'My new frontyard');
-INSERT into activities (user_id, image_url, comment) VALUES (4, 'https://static.pexels.com/photos/197756/pexels-photo-197756.jpeg', 'My new frontyard');
-INSERT into activities (user_id, image_url, comment) VALUES (4, 'https://static.pexels.com/photos/197756/pexels-photo-197756.jpeg', 'My new frontyard');
-
-
-
+INSERT into activities (user_id, image_url, comments) VALUES (1, 'https://photos.photos.com/photos/101569/pexels-image-101569.jpeg', 'Hard ass code');
+INSERT into activities (user_id, image_url, comments) VALUES (2, 'https://photos.photos.com/photos/299345/pexels-image-299345.jpeg', 'sleep for the weak');
 
 -- DOWN
 DROP TABLE users;

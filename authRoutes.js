@@ -6,7 +6,8 @@ const parser = require('body-parser');
 const Users = require('./instaClone')
 const expressSession = require('express-session');
 
-let authApp = express();
+const authApp = express();
+
 
 
 authApp.use(parser.json())
@@ -34,8 +35,9 @@ passport.use(new LocalStrategy({
     passwordField: 'password',
   },
   (username, password, done) => {
-    Users.loginUser(username, password)
+    db.run(`SELECT id, username FROM users WHERE username = '${username}' AND password = '${password}'`)
       .then((valid) => {
+        console.log("VALID: ",valid);
         if (!valid) return done(null, false);
         return done(null, valid);
       })
@@ -46,8 +48,15 @@ passport.use(new LocalStrategy({
 authApp.use(passport.initialize());
 authApp.use(passport.session());
 
+authApp.get('/logout', (request, response, next) => {
+        console.log('in /auth/logout ')
+        request.logout();
+        next();
+    });
 
-authApp.post('/auth/login', (request, response, next) => {
+
+authApp.post('/login', (request, response, next) => {
+  console.log("LOGIN:  ",request.body);
   console.log('IN /login');
 
   passport.authenticate('local', (err, user, info) => {
@@ -73,31 +82,15 @@ authApp.post('/auth/login', (request, response, next) => {
 });
 
 
-authApp.use((request, response, next) => {
+authApp.use((request, response) => {
   console.log('in authRoutes')
   if (request.isAuthenticated()) {
-    next();
+    // next();
   }
   else {
     response.status(403)
     response.send({success: false})
 }
-});
-
-
-authApp.post('/auth/signup', (request, response) => {
-  const body = request.body;
-  const isCreated = Users.createNewUser(body)
-    .then((data) => {
-      response.header('Content-Type', 'application/json');
-      response.send({
-        success: true
-      })
-    })
-    .catch((e) => {
-      console.log(e)
-      response.status(401);
-    });
 });
 
 
