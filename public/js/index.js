@@ -1,5 +1,5 @@
 (function() {
-
+    console.log(login);
     const GET = (url = null) => {
         return new Promise((resolve, reject) => {
             if (url === null) {
@@ -66,7 +66,6 @@
                 username,
                 email,
                 password,
-                age,
             }).then((data) => {
                 console.log(data)
                 if (data.success) {
@@ -85,7 +84,7 @@
             const password = document.querySelector('.js-pw').value;
 
             POST('/auth/login', {
-                email,
+                username,
                 password,
             }).then((data) => {
                 console.log(data)
@@ -95,4 +94,5 @@
             });
         });
     }
+
 })();

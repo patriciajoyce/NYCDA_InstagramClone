@@ -16,38 +16,55 @@ router.use(parser.json())
 
 //get all of the users on the app
 router.get('/users', (req, res) => {
-	instaClone.getAllUsers(req, res)
-        .then((data) => {
-            res.header('Content-Type', 'application/json');
-            res.send({ users: data });
-        })
-        .catch((e) => {
-            res.status(401);
-        });
+  instaClone.getAllUsers(req, res)
+    .then((data) => {
+      res.header('Content-Type', 'application/json');
+      res.send({
+        users: data
+      });
+    })
+    .catch((e) => {
+      res.status(401);
+    });
 });
 
 //get the feed of a specific user by their id
 router.get('/user/:user_id', (req, res) => {
-    const id = parseInt(req.params.user_id, 10);
-	  instaClone.getUser(id)
-				.then((data) => {
-						res.header('Content-Type', 'application/json');
-            res.send({
-                user: data,
-                soMuchActivities: data.length
-            });
-        })
-        .catch((e) => {
-            console.log(e)
-            res.status(401);
-        });
+  const id = parseInt(req.params.user_id, 10);
+  instaClone.getUser(id)
+    .then((data) => {
+      res.header('Content-Type', 'application/json');
+      res.send({
+        user: data,
+        soMuchActivities: data.length
+      });
+    })
+    .catch((e) => {
+      console.log(e)
+      res.status(401);
+    });
 });
 
 
 
+router.post('/:user_id/feed'), (req, res) => {
+  const id = parseInt(req.params.user_id, 10);
+  // console.log(id, req.body)
+  const newPostCreated = instaClone.createNewPost(id, req.body)
+    .then((data) => {
+      // console.log('_____IN DATA',data);
+      res.header('Content-Type', 'application/json');
+      res.send({
+        post: data
+      });
+    })
+    .catch((e) => {
+      console.log(e)
+      res.status(401);
+    });
+}
 
-
-
+// console.log(router.post);
 
 
 

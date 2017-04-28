@@ -1,0 +1,76 @@
+section{
+  display: flex;
+  width: 70%;
+  padding: 80px 110px 80px 110px;
+  margin-left: 7%;
+  float: center;
+  border-radius: 15px;
+  background: url("https://i1.wp.com/www.janmary.com/wp-content/uploads/2014/12/instagram-2014-collage.jpg?resize=768%2C768") repeat;
+}
+
+
+h1{
+	text-align: center;
+	font-family: 'Permanent Marker', cursive;
+	font-size: 45px;
+
+}
+
+h2{
+	text-align: center;
+	font-family: 'Permanent Marker', cursive;
+	font-size: 30px;
+
+}
+
+.field{
+	width: 70% ;
+	
+}
+
+.login{
+	border-radius: 15px;
+	text-align: center;
+	width: 50%;
+	background-color: white;
+	margin-left: 5px;
+	padding-bottom: 15px;
+}
+
+.signup{
+	border-radius: 15px;
+	text-align: center;
+	width: 50%;
+	background-color: white;
+	margin-left: 20px;
+	padding-bottom: 15px;
+}
+
+.ui.form{
+	padding-left: 16%;
+
+}
+
+.button{
+	text-align: center;
+	width: 60%;
+	margin-left: 35px;
+}
+
+.login-button{
+	padding-top: 20px;
+}
+
+p{
+	text-align: left;
+	font-family: 'Raleway', sans-serif;
+	font-size: 16px;
+}
+
+.authors{
+	padding-top: 15px;
+	font-family: 'Raleway', sans-serif;
+	width: 99%;
+	text-align: center;
+}
+

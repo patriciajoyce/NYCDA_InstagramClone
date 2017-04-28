@@ -25,8 +25,8 @@ INSERT into users (username, email, password) VALUES ('Dani', 'dani@email.com', 
 INSERT into follows (user_id, followed_id) VALUES (1,2);
 INSERT into follows (user_id, followed_id) VALUES (2,1);
 
-INSERT into activities (user_id, image_url, comments) VALUES (1, 'https://static.pexels.com/photos/101569/pexels-photo-101569.jpeg', 'Hard ass code');
-INSERT into activities (user_id, image_url, comments) VALUES (2, 'https://static.pexels.com/photos/299345/pexels-photo-299345.jpeg', 'sleep for the weak');
+INSERT into activities (user_id, image_url, comments) VALUES (1, 'https://photos.photos.com/photos/101569/pexels-image-101569.jpeg', 'Hard ass code');
+INSERT into activities (user_id, image_url, comments) VALUES (2, 'https://photos.photos.com/photos/299345/pexels-image-299345.jpeg', 'sleep for the weak');
 
 -- DOWN
 DROP TABLE users;

@@ -16,27 +16,38 @@ const DB_NAME = './database.sqlite';
 //       'signup': ['signup.html']
 //  }));
 
-app.use('/', express.static('public', {
-    'feed': ['feed.html'],
-    'login': ['login.html'],
-    'signup': ['signup.html'],
-    'profile': ['profile.html']
-}));
 
 
+app.use('/', express.static('public'))
+
+
+// app.use('/', express.static('public', {
+//     'feed': ['feed.html']
+//     'login': ['login.html'],
+//     'signup': ['signup.html'],
+//     'profile': ['profile.html']
+// }));
+
+
+app.listen(port, () => {
+  console.log("App now running on PORT:", port);
+})
 
 
 // const SocketInst = socket(DB_NAME, app);
 // app = SocketInst.app;
 
 app.use('/api', API);
-app.use(signup);
-app.use(Auth);
+app.use('/auth', signup);
 
-
-Promise.resolve()
-    .then(() => db.open(DB_NAME, { Promise }))
-    .then(() => db.migrate({ force: 'last' }))
-    .then(() => app.listen(port))
-    .then(() => {console.log(`Server started on port ${port}`)})
-    .catch(err => console.error(err.stack))
+// app.use(signup);
+app.use('/loginAuth',Auth);
+// app.use(Auth);
+//
+//
+// Promise.resolve()
+//     .then(() => db.open(DB_NAME, { Promise }))
+//     .then(() => db.migrate({ force: 'last' }))
+//     .then(() => app.listen(port))
+//     .then(() => {console.log(`Server started on port ${port}`)})
+//     .catch(err => console.error(err.stack))
