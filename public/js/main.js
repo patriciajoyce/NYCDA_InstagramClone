@@ -113,7 +113,7 @@
       }).then((data) => {
         console.log(data)
         if (data.success) {
-          window.location.href = '/login.html'
+          window.location.href = '/home.html'
         }
       });
     });
