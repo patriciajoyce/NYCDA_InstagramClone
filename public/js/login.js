@@ -46,7 +46,7 @@ const login = (e) => {
   const username = loginUserName.value;
   const password = loginPassword.value;
 
-  POST('/login/login',{
+  POST('/loginAuth/login',{
     username,
     password
   }).then((res)=>{

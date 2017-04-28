@@ -29,7 +29,7 @@ app.use('/', express.static('public'))
 // }));
 
 
-app.listen(port, ()=>{
+app.listen(port, () => {
   console.log("App now running on PORT:", port);
 })
 
@@ -37,11 +37,11 @@ app.listen(port, ()=>{
 // const SocketInst = socket(DB_NAME, app);
 // app = SocketInst.app;
 
-// app.use('/api', API);
+app.use('/api', API);
 app.use('/auth', signup);
 
 // app.use(signup);
-app.use('/login',Auth);
+app.use('/loginAuth',Auth);
 // app.use(Auth);
 //
 //
