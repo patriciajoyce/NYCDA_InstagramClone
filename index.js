@@ -29,7 +29,7 @@ app.use('/', express.static('public'))
 // }));
 
 
-app.listen(port, ()=>{
+app.listen(port, () => {
   console.log("App now running on PORT:", port);
 })
 
