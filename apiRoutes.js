@@ -49,11 +49,13 @@ router.get('/user/:user_id', (req, res) => {
 
 // console.log('HERE_______')
 
-router.post('/:user_id/feed', (req, res) => {
+router.post('/:user_id/post', (req, res) => {
   const user_id = parseInt(req.params.user_id, 10);
   console.log('IN POST/1');
+  // console.log(user_id);
   instaClone.createNewPost(user_id,req.body)
     .then((data) => {
+      console.log('this is the data in creatPost func:',data)
       res.header('Content-Type', 'application/json');
       res.send({
         post: data

@@ -56,15 +56,14 @@ instaClone.getAllUsers = () => {
 //creates a new user to the app
 instaClone.createNewUser = (request) => {
   const {username, email, password} = request;
-  return db.run(`INSERT INTO users(username, email, password) VALUES (?,?,?)`, [username,email,password])
+  return db.run(`INSERT INTO users(username, email, password) VALUES (?,?,?)`, [username, email, password])
   // .then(()=>{
   //   SocketInst.broadcast('LOAD_BUFFER')
   // })
 };
 
 instaClone.createNewPost = (user_id,req) => {
-  // const {image_url,feed_id,comments} = request;
-  return db.run(`INSERT INTO activities (user_id, feed_id , image_url, comments) values (?,?,?,?})` [user_id,req.feed_id,req.image_url,req.comments] )
+  return db.run(`INSERT INTO posts(user_id, image_url, comments) VALUES (?,?,?)`, [user_id, req.image_url, req.comments])
 };
 
 module.exports = instaClone;

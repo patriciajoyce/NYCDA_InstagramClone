@@ -10,7 +10,7 @@ CREATE TABLE follows(
     followed_id INTEGER,
     FOREIGN KEY(user_id) REFERENCES users(id)
 );
-CREATE TABLE activities(
+CREATE TABLE posts(
     feed_id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER NOT NULL,
     image_url TEXT NOT NULL,
@@ -25,13 +25,13 @@ INSERT into users (username, email, password) VALUES ('Dani', 'dani@email.com', 
 INSERT into follows (user_id, followed_id) VALUES (1,2);
 INSERT into follows (user_id, followed_id) VALUES (2,1);
 
-INSERT into activities (user_id, image_url, comments) VALUES (1, 'https://photos.photos.com/photos/101569/pexels-image-101569.jpeg', 'Hard ass code');
-INSERT into activities (user_id, image_url, comments) VALUES (2, 'https://photos.photos.com/photos/299345/pexels-image-299345.jpeg', 'sleep for the weak');
+INSERT into posts (user_id, image_url, comments) VALUES (1, 'https://photos.photos.com/photos/101569/pexels-image-101569.jpeg', 'Hard ass code');
+INSERT into posts (user_id, image_url, comments) VALUES (2, 'https://photos.photos.com/photos/299345/pexels-image-299345.jpeg', 'sleep for the weak');
 
 -- DOWN
 DROP TABLE users;
 DROP TABLE follows;
-DROP TABLE activities;
+DROP TABLE posts;
 
 
 
