@@ -153,7 +153,7 @@ router.put('/:user_id/update_post/:feed_id', (req, res) => {
             res.header('Content-Type', 'application/json');
             res.send({
                 update: data,
-                numResults: data.length
+                soMuchActivities: data.length
             });
         })
         .catch((e) => {
@@ -162,6 +162,23 @@ router.put('/:user_id/update_post/:feed_id', (req, res) => {
         });
 });
 
+// Delete a particular post
+router.delete('/:user_id/delete_post/:feed_id', (req, res) => {
+    const user_id = parseInt(req.params.user_id, 10);
+    const feed_id = parseInt(req.params.feed_id, 10);
+    instaClone.deletePost(user_id, feed_id)
+        .then((data) => {
+            res.header('Content-Type', 'application/json');
+            res.send({
+                followedUsers: data,
+                soMuchActivities: data.length
+            });
+        })
+        .catch((e) => {
+            console.log(e)
+            res.status(401);
+        });
+});
 
 
 
@@ -175,7 +192,7 @@ router.post('/:user_id/follows/:followed_id', (req, res) => {
       console.log(data);
       res.header('Content-Type', 'application/json');
       res.send({
-        followed_users: data,
+        followedUsers: data,
         soMuchActivities: data.length
       });
     })
@@ -185,7 +202,24 @@ router.post('/:user_id/follows/:followed_id', (req, res) => {
     });
 });
 
-
+//Unfollow a certain user
+router.delete('/:user_id/unfollows/:followed_id' ,(req,res) => {
+  const user_id = parseInt(req.params.user_id, 10);
+  const followed_id = parseInt(req.params.followed_id, 10);
+  instaClone.unFollow_A_User(user_id, followed_id, req.body)
+    .then((data) => {
+      console.log(data);
+      res.header('Content-Type', 'application/json');
+      res.send({
+        followedUsers: data,
+        soMuchActivities: data.length
+      });
+    })
+    .catch((e) => {
+      console.log(e)
+      res.status(401);
+    });
+  });
 
 
 

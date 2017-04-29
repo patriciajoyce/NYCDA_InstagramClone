@@ -1,27 +1,8 @@
 const db = require('sqlite');
-// const express = require('express')
-// let app = express();
 const DB_NAME = './database.sqlite';
-// const port = 3000;
+
+
 const instaClone = {};
-//
-// const socket = require('./sqliteui/websocket');
-// const SocketInst = socket(DB_NAME, app);
-// app = SocketInst.app;
-
-
-// app.use('/', express.static('./sqliteui/public',{'index': ['index.html']}));
-
-// Promise.resolve()
-//     .then(() => db.open(DB_NAME, { Promise }))
-//     .then(() => db.migrate({ force: 'last' }))
-//     .then(() => app.listen(port))
-//     .then(() => {console.log(`Server started on port ${port}`)})
-//     .catch(err => console.error(err.stack))
-
-// console.log('______HERE in instaClone',typeof(instaClone.createNewPost));
-
-
 
 //get all users plus their feed eventually this will only show people who do not have a private feed
 
@@ -33,7 +14,7 @@ instaClone.getAllUsers_n_Feeds = () => {
     posts.comments AS Chronicle,
     posts.created AS Posted
     FROM users
-    INNER JOIN posts ON posts.user_id = id
+    INNER JOIN posts ON posts.user_id = users.id
     GROUP BY feed_id
     ORDER BY id ASC`)
   }
@@ -50,7 +31,7 @@ instaClone.getUser = (user_id) => {
     posts.comments AS Chronicle,
     posts.created AS Posted
     FROM users
-    INNER JOIN posts ON posts.user_id = id
+    INNER JOIN posts ON posts.user_id = users.id
     WHERE id = ${user_id}
     ORDER BY posts.created DESC`)
   }
@@ -67,7 +48,7 @@ instaClone.getFollowers = (currUser_id) => {
   posts.created As Posted
   FROM users
   INNER JOIN follows ON follows.followed_id = id
-  INNER JOIN posts ON posts.user_id = id
+  INNER JOIN posts ON posts.user_id = users.id
   WHERE follows.user_id = ${currUser_id}
   ORDER BY posts.created DESC`)
 }
@@ -83,7 +64,7 @@ instaClone.getOnePost = (feed_id) => {
                     posts.comments AS Chronicle,
                     posts.created
                 FROM posts
-                    INNER JOIN users ON posts.user_id = id
+                    INNER JOIN users ON posts.user_id = users.id
                 WHERE posts.feed_id = ${feed_id}`)
 };
 
@@ -130,5 +111,15 @@ instaClone.editPost = (user_id, feed_id, comments) => {
 //   return db.run(`UPDATE posts SET comments = "${newTale}" WHERE feed_id = ${feed_id} and user_id = ${user_id}`)
 //   return db.run(`UPDATE posts SET comments = "${newTale}" WHERE feed_id = ${feed_id} and user_id = ${user_id}`)
 // }
+
+// Delete a particular post
+instaClone.deletePost = (user_id, feed_id) => {
+    return db.run(`DELETE FROM posts WHERE feed_id = ${feed_id} and user_id = ${user_id}`)
+};
+
+//Unfollow a certain user
+instaClone.unFollow_A_User = (user_id,followed_id) => {
+  return db.run(`DELETE FROM follows WHERE user_id = ${user_id} AND followed_id = ${followed_id}`)
+};
 
 module.exports = instaClone;

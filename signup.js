@@ -18,8 +18,6 @@ signUp.post('/signup', (request, response) => {
   const {body} = request;
   const {username, email, password} = body;
   const newUserCreated = instaClone.createNewUser(username, email, password)
-    // .then((data) => {
-    //   console.log('data in signup route', data)
       response.header('Content-Type', 'application/json');
       if (newUserCreated) {
         response.send({

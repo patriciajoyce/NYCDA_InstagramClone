@@ -75,16 +75,17 @@
   } // DELETE
 
 
-
-  const submitSignUpBtn = document.querySelector('.js-signup');
-  if (submitSignUpBtn !== null) {
-    submitSignUpBtn.addEventListener('click', (e) => {
+  const signUpusername = document.querySelector('.js-signUpUserName');
+  const signUpemail = document.querySelector('.js-signUpEmail');
+  const signUppassword = document.querySelector('.js-signUpPassword');
+  const signUpSubmit = document.querySelector('.js-signUpSubmit')
+  if (signUpSubmit !== null) {
+    signUpSubmit.addEventListener('click', (e) => {
       e.preventDefault();
 
-      const username = document.querySelector('.js-name').value;
-      const email = document.querySelector('.js-email').value;
-      const password = document.querySelector('.js-pw').value;
-      const age = document.querySelector('.js-age').value;
+      const username = signUpusername.value;
+      const email = signUpemail.value;
+      const password = signUppassword.value;
 
       POST('/auth/signup', {
         username,
@@ -93,30 +94,57 @@
       }).then((data) => {
         console.log(data)
         if (data.success) {
-          window.location.href = '/login.html'
+          window.location.href = '/'
         }
       });
     });
   }
 
-  const loginSignUpBtn = document.querySelector('.js-login');
-  if (loginSignUpBtn !== null) {
-    loginSignUpBtn.addEventListener('click', (e) => {
-      e.preventDefault();
 
-      const email = document.querySelector('.js-email').value;
-      const password = document.querySelector('.js-pw').value;
+  const loginUserName = document.querySelector('.js-loginUserName');
+  const loginPassword = document.querySelector('.js-loginPassword');
+  const loginSubmit = document.querySelector('.js-loginSubmit')
+  if (loginSubmit !== null) {
+    loginSubmit.addEventListener('click', (e) => {
+
+      e.preventDefault();
+      const username = loginUserName.value;
+      const password = loginPassword.value;
 
       POST('/loginAuth/login', {
-        username,
-        password,
-      }).then((data) => {
-        console.log(data)
-        if (data.success) {
-          window.location.href = '/home.html'
-        }
-      });
-    });
+          username,
+          password
+        })
+        .then((data) => {
+          console.log('data from auth/login login.js', data)
+          localStorage.setItem('user_id', data.id);
+          localStorage.setItem('username', data.username);
+          if (data.success) {
+            window.location.href = '/home.html'
+          }
+        })
+
+    })
   }
+
+  const logoutBtn = document.querySelector('.js-logout');
+  if (logoutBtn !== null) {
+    logoutBtn.addEventListener('click', (e) => {
+      console.log('clicked logout!');
+      logout();
+
+
+    })
+  }
+
+
+  function logout() {
+    GET('/loginAuth/logout')
+      .then((data) => {
+        console.log('logout data :', data);
+        localStorage.setItem('user_id', null);
+        window.location.href = '/'
+      })
+  };
 
 })();

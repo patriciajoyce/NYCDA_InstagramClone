@@ -13,7 +13,7 @@ app.use('/', express.static('public'))
 
 app.use('/auth', signup);
 
-app.use('/loginAuth',Auth);
+app.use('/loginAuth', Auth);
 
 // locks down routes belows. requires authentication
 app.use('/api', API);
