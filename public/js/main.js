@@ -107,7 +107,7 @@
       const email = document.querySelector('.js-email').value;
       const password = document.querySelector('.js-pw').value;
 
-      POST('/auth/login', {
+      POST('/loginAuth/login', {
         username,
         password,
       }).then((data) => {

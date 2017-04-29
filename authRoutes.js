@@ -19,7 +19,7 @@ authApp.use(expressSession({
  * implement passport methods
  */
 passport.serializeUser((user, done) => {
-  console.log('HERE');
+  console.log('in serializer');
   done(null, user)
 });
 passport.deserializeUser((user, done) => {
@@ -35,7 +35,7 @@ passport.use(new LocalStrategy({
     passwordField: 'password',
   },
   (username, password, done) => {
-    db.run(`SELECT id, username FROM users WHERE username = '${username}' AND password = '${password}'`)
+    db.get(`SELECT users.id, users.username FROM users WHERE users.username = '${username}' AND users.password = '${password}'`)
       .then((valid) => {
         console.log("VALID: ",valid);
         if (!valid) return done(null, false);
@@ -49,31 +49,33 @@ authApp.use(passport.initialize());
 authApp.use(passport.session());
 
 authApp.get('/logout', (request, response, next) => {
-        console.log('in /auth/logout ')
+        console.log('in /loginAuth/logout ')
         request.logout();
         next();
     });
 
 
 authApp.post('/login', (request, response, next) => {
-  console.log("LOGIN:  ",request.body);
-  console.log('IN /login');
+  console.log("LOGIN req.body:  ",request.body);
+  console.log('IN /loginAuth/login');
 
   passport.authenticate('local', (err, user, info) => {
     console.log('IN passport.authenticate')
     if (err || !user) {
-      console.log(err, user, info);
+      console.log('err, user, info :',err, user, info);
       next()
     };
     request.logIn(user, (err) => {
       console.log('LOGGED IN')
       if (err) return next(err);
+
       console.log('SESSION')
       // if we are here, user has logged in!
       response.header('Content-Type', 'application/json');
       response.send({
         success: true,
-        id: user.id
+        id: user.id,
+        username: user.username
       });
       next()
     });
@@ -82,15 +84,20 @@ authApp.post('/login', (request, response, next) => {
 });
 
 
-authApp.use((request, response) => {
+authApp.use((request, response, next) => {
   console.log('in authRoutes')
+  console.log('req.user :',request.user)
+  console.log('req,isAuth :',request.isAuthenticated());
+
   if (request.isAuthenticated()) {
-    // next();
+    console.log('is authenticated');
+    next();
+    return;
   }
-  else {
+    response.header('Content-Type', 'application/json');
     response.status(403)
     response.send({success: false})
-}
+    return;
 });
 
 
