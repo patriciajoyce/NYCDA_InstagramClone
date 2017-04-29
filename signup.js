@@ -2,7 +2,7 @@ const express = require('express');
 const db = require('sqlite');
 const DB_NAME = './database.sqlite';
 
-let app = express();
+const signUp = express();
 
 
 // const socket = require('./sqliteui/websocket');
@@ -17,14 +17,14 @@ const parser = require('body-parser');
 const expressSession = require('express-session');
 
 // use body parser
-app.use(parser.json());
+signUp.use(parser.json());
 
-app.use(expressSession({
+signUp.use(expressSession({
   secret: 'WorkDamnYou'
 }));
 
 
-app.post('/signup', (request, response) => {
+signUp.post('/signup', (request, response) => {
   console.log("WE ARE IN BACKEND:  ",request.body);
   // const {body} = request;
   // const {username, email, password} = request.body;
@@ -42,12 +42,12 @@ app.post('/signup', (request, response) => {
     });
 
 });
-
-Promise.resolve()
-    .then(() => db.open(DB_NAME, { Promise }))
+//
+// Promise.resolve()
+//     .then(() => db.open(DB_NAME, { Promise }))
     // .then(() => db.migrate({ force: 'last' }))
     // .then(() => app.listen(PORT))
     // .then(() => {console.log(`Server started on port ${PORT}`)})
-    .catch(err => console.error(err.stack))
+    // .catch(err => console.error(err.stack))
 
-module.exports = app;
+module.exports = signUp;

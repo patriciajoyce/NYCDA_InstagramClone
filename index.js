@@ -29,9 +29,9 @@ app.use('/', express.static('public'))
 // }));
 
 
-app.listen(port, () => {
-  console.log("App now running on PORT:", port);
-})
+// app.listen(port, () => {
+//   console.log("App now running on PORT:", port);
+// })
 
 
 // const SocketInst = socket(DB_NAME, app);
@@ -45,9 +45,9 @@ app.use('/loginAuth',Auth);
 // app.use(Auth);
 //
 //
-// Promise.resolve()
-//     .then(() => db.open(DB_NAME, { Promise }))
-//     .then(() => db.migrate({ force: 'last' }))
-//     .then(() => app.listen(port))
-//     .then(() => {console.log(`Server started on port ${port}`)})
-//     .catch(err => console.error(err.stack))
+Promise.resolve()
+    .then(() => db.open(DB_NAME, { Promise }))
+    .then(() => db.migrate({ force: 'last' }))
+    .then(() => app.listen(port))
+    .then(() => {console.log(`Server started on port ${port}`)})
+    .catch(err => console.error(err.stack))
