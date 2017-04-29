@@ -16,6 +16,7 @@ router.use(parser.json())
 
 //get all of the users on the app
 router.get('/users', (req, res) => {
+  // console.log('IN USERS');
   instaClone.getAllUsers(req, res)
     .then((data) => {
       res.header('Content-Type', 'application/json');
@@ -31,6 +32,7 @@ router.get('/users', (req, res) => {
 //get the feed of a specific user by their id
 router.get('/user/:user_id', (req, res) => {
   const id = parseInt(req.params.user_id, 10);
+  // console.log('IN USER/1');
   instaClone.getUser(id)
     .then((data) => {
       res.header('Content-Type', 'application/json');
@@ -45,14 +47,15 @@ router.get('/user/:user_id', (req, res) => {
     });
 });
 
+// console.log('HERE_______')
 
-
-router.post('/:user_id/feed'), (req, res) => {
-  const id = parseInt(req.params.user_id, 10);
-  // console.log(id, req.body)
-  const newPostCreated = instaClone.createNewPost(id, req.body)
+router.post('/:user_id/post', (req, res) => {
+  const user_id = parseInt(req.params.user_id, 10);
+  console.log('IN POST/1');
+  // console.log(user_id);
+  instaClone.createNewPost(user_id,req.body)
     .then((data) => {
-      // console.log('_____IN DATA',data);
+      console.log('this is the data in creatPost func:',data)
       res.header('Content-Type', 'application/json');
       res.send({
         post: data
@@ -61,10 +64,27 @@ router.post('/:user_id/feed'), (req, res) => {
     .catch((e) => {
       console.log(e)
       res.status(401);
-    });
-}
-
-// console.log(router.post);
+    })
+});
+// router.post('/:user_id/feed', (req, res) => {
+//     let args = {};
+//     for (const prop in req.body) {
+//         args['$' + prop] = req.body[prop];
+//     }
+//     req.body = args;
+//     const user_id = parseInt(req.params.user_id, 10);
+//     instaClone.createNewPost(user_id, req.body)
+//         .then((data) => {
+//             res.header('Content-Type', 'application/json');
+//             res.send({
+//                 post: data
+//             });
+//         })
+//         .catch((e) => {
+//             console.log(e)
+//             res.status(401);
+//         });
+// });
 
 
 

@@ -1,23 +1,23 @@
 const db = require('sqlite');
-const express = require('express')
-let app = express();
+// const express = require('express')
+// let app = express();
 const DB_NAME = './database.sqlite';
-const port = 3000;
+// const port = 3000;
 const instaClone = {};
+//
+// const socket = require('./sqliteui/websocket');
+// const SocketInst = socket(DB_NAME, app);
+// app = SocketInst.app;
 
-const socket = require('./sqliteui/websocket');
-const SocketInst = socket(DB_NAME, app);
-app = SocketInst.app;
 
+// app.use('/', express.static('./sqliteui/public',{'index': ['index.html']}));
 
-app.use('/', express.static('./sqliteui/public',{'index': ['index.html']}));
-
-Promise.resolve()
-    .then(() => db.open(DB_NAME, { Promise }))
-    .then(() => db.migrate({ force: 'last' }))
-    .then(() => app.listen(port))
-    .then(() => {console.log(`Server started on port ${port}`)})
-    .catch(err => console.error(err.stack))
+// Promise.resolve()
+//     .then(() => db.open(DB_NAME, { Promise }))
+//     .then(() => db.migrate({ force: 'last' }))
+//     .then(() => app.listen(port))
+//     .then(() => {console.log(`Server started on port ${port}`)})
+//     .catch(err => console.error(err.stack))
 
 // console.log('______HERE in instaClone',typeof(instaClone.createNewPost));
 
@@ -56,13 +56,14 @@ instaClone.getAllUsers = () => {
 //creates a new user to the app
 instaClone.createNewUser = (request) => {
   const {username, email, password} = request;
-  return db.run(`INSERT INTO users(username, email, password) VALUES (?,?,?)`, [username,email,password]).then(()=>{
-    SocketInst.broadcast('LOAD_BUFFER')
-  })
+  return db.run(`INSERT INTO users(username, email, password) VALUES (?,?,?)`, [username, email, password])
+  // .then(()=>{
+  //   SocketInst.broadcast('LOAD_BUFFER')
+  // })
 };
 
-instaClone.createNewPost = (user_id,request) => {
-  return db.run(`INSERT INTO activities (user_id, image_url, comments) values (${user_id}, ${image_url}, ${comments})` )
+instaClone.createNewPost = (user_id,req) => {
+  return db.run(`INSERT INTO posts(user_id, image_url, comments) VALUES (?,?,?)`, [user_id, req.image_url, req.comments])
 };
 
 module.exports = instaClone;
