@@ -6,8 +6,8 @@ const instaClone = {};
 
 //get all users plus their feed eventually this will only show people who do not have a private feed
 
-instaClone.getAllUsers_n_Feeds = () => {
-  return db.run(`SELECT users.id AS id,
+instaClone.getAllUsersAndFeeds = () => {
+  return db.all(`SELECT users.id AS id,
     users.username AS Username,
     posts.feed_id AS Series_ID,
     posts.image_url AS Image,
@@ -47,12 +47,12 @@ instaClone.getFollowers = (currUser_id) => {
   posts.comments AS Chronicle,
   posts.created As Posted
   FROM users
-  INNER JOIN follows ON follows.followed_id = id
+  INNER JOIN follows ON follows.followed_id = users.id
   INNER JOIN posts ON posts.user_id = users.id
   WHERE follows.user_id = ${currUser_id}
   ORDER BY posts.created DESC`)
 }
-
+console.log(instaClone.getFollowers);
 //_______________________________________
 
 //get a particular post to comment on or to creep on the user

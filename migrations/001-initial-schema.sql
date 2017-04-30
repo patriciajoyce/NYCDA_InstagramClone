@@ -17,8 +17,9 @@ CREATE TABLE posts(
     created DATETIME TEXT DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT into users (username, email, password) VALUES ('Oz', 'ozz@email.com', 'passsssword');
-INSERT into users (username, email, password) VALUES ('Dani', 'dani@email.com', 'passsssword2');
+INSERT into users (username, email, password) VALUES ('Oz', 'ozz@email.com', 'password');
+INSERT into users (username, email, password) VALUES ('Dani', 'dani@email.com', 'password2');
+INSERT into users (username, email, password) VALUES ('Ozz', 'ozz@email.com', 'password');
 
 INSERT into follows (user_id, followed_id) VALUES (1,2);
 INSERT into follows (user_id, followed_id) VALUES (2,1);
