@@ -125,50 +125,34 @@ router.post('/:user_id/activity', (req, res) => {
     })
 });
 
-//edit a particular post
-// router.put('/:user_id/update_post/:feed_id', (req, res) => {
-//   const user_id = parseInt(req.params.user_id, 10);
-//   const feed_id = parseInt(req.params.feed_id, 10);
-//   const newTale = req.body.comments
-//   console.log("____HERE", req.body.comments)
-//   instaClone.editPost(newTale, feed_id, user_id)
-//     .then((data) => {
-//       console.log(data);
-//       res.header('Content-Type', 'application/json');
-//       res.send({
-//         update_post: data,
-//         soMuchActivities: data.length
-//       });
-//     })
-//     .catch((e) => {
-//       console.log(e)
-//       res.status(401);
-//     })
-// })
+
 
 //edit a particular post
 router.put('/:user_id/update_post/:feed_id',(req, res) => {
   const user_id = parseInt(req.params.user_id, 10);
   const feed_id = parseInt(req.params.feed_id, 10);
     const comments = req.body.comments
+    // console.log(comments);
     console.log('HERE',user_id, feed_id, comments)
-    instaClone.editPost(user_id, feed_id, comments)
-        .then((data) => {
-          console.log(data);
-            res.header('Content-Type', 'application/json');
-            res.send({
-                update: data,
-                soMuchActivities: data.length
-            });
-        })
-        .catch((e) => {
-            console.log(e)
-            res.status(401);
+    instaClone.editPost(user_id, feed_id, comments).then(feed => {
+      console.log("ORIGIN: ",feed);
+        res.header('Content-Type', 'application/json');
+        res.send({
+            update: feed
+            // soMuchActivities: data.length
         });
+    })
+        // .then((data) => {
+        //   console.log("RESPONSE: ",data);
+        // })
+        // .catch((e) => {
+        //     console.log(e)
+        //     res.status(401);
+        // });
 });
 
 // Delete a particular post
-router.delete('/:user_id/delete_post/:feed_id',(req, res) => {
+router.delete('/:user_id/deletePost/:feed_id',(req, res) => {
     const user_id = parseInt(req.params.user_id, 10);
     const feed_id = parseInt(req.params.feed_id, 10);
     instaClone.deletePost(user_id, feed_id)
@@ -192,13 +176,13 @@ router.delete('/:user_id/delete_post/:feed_id',(req, res) => {
 router.post('/:user_id/follows/:followed_id', (req, res) => {
   const user_id = parseInt(req.params.user_id, 10);
   const followed_id = parseInt(req.params.followed_id, 10);
-  instaClone.follow_A_User(user_id, followed_id, req.body)
+  instaClone.followUser(user_id, followed_id, req.body)
     .then((data) => {
       console.log(data);
       res.header('Content-Type', 'application/json');
       res.send({
-        followedUsers: data,
-        soMuchActivities: data.length
+        followedUsers: data
+        // soMuchActivities: data.length
       });
     })
     .catch((e) => {
