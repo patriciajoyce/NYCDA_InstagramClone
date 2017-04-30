@@ -6,8 +6,8 @@ const instaClone = {};
 
 //get all users plus their feed eventually this will only show people who do not have a private feed
 
-instaClone.getAllUsers_n_Feeds = () => {
-  return db.run(`SELECT users.id AS id,
+instaClone.getAllUsersAndFeeds = () => {
+  return db.all(`SELECT users.id AS id,
     users.username AS Username,
     posts.feed_id AS Series_ID,
     posts.image_url AS Image,
@@ -47,12 +47,12 @@ instaClone.getFollowers = (currUser_id) => {
   posts.comments AS Chronicle,
   posts.created As Posted
   FROM users
-  INNER JOIN follows ON follows.followed_id = id
+  INNER JOIN follows ON follows.followed_id = users.id
   INNER JOIN posts ON posts.user_id = users.id
   WHERE follows.user_id = ${currUser_id}
   ORDER BY posts.created DESC`)
 }
-
+console.log(instaClone.getFollowers);
 //_______________________________________
 
 //get a particular post to comment on or to creep on the user
@@ -75,9 +75,13 @@ instaClone.getOnePost = (feed_id) => {
 
 
 // Follow a user..how currUser will follow a particular user
-instaClone.follow_A_User = (user_id,req) => {
-    return db.run(`INSERT INTO follows (user_id, followed_id) VALUES (?,?)`, [user_id,req.followed_id])
-};
+instaClone.followUser = (user_id,followed_id) => {
+    return db.run(`INSERT INTO follows (user_id, followed_id) VALUES (?,?)`, [user_id,followed_id])
+    .then((stmt) => {
+      console.log(stmt.lastID)
+        return db.get(`SELECT * FROM follows WHERE followed_id = ${stmt.lastID}`)
+   });
+}
 //_______________________________________
 
 //once signed up and logged in have your choice on who to follow
@@ -85,6 +89,8 @@ instaClone.getUsersOnly = () => {
     return db.all(`SELECT * FROM users`)
 };
 //_______________________________________
+
+
 
 //creates a new user to the app
 instaClone.createNewUser = (request) => {
@@ -96,21 +102,29 @@ instaClone.createNewUser = (request) => {
 //creates a new post for currUser
 
 instaClone.createNewPost = (user_id,req) => {
-  return db.run(`INSERT INTO posts(user_id, image_url, comments) VALUES (?,?,?)`, [user_id, req.image_url,req.comments])
+  // const {user_id,image_url,comments} = req
+  return db.run(`INSERT INTO posts(user_id, image_url, comments) VALUES (?,?,?)`, [user_id,req.image_url,req.comments])
+    .then((stmt) => {
+      console.log(stmt.stmt.lastID)
+        return db.get(`SELECT * FROM posts WHERE feed_id = ${stmt.stmt.lastID}`)
+    });
 };
 //_______________________________________
 
 //edit a particular post
 
 instaClone.editPost = (user_id, feed_id, comments) => {
-  console.log('IN INSTACLONE',typeof user_id,typeof feed_id);
+  return new Promise((resolve, reject) => {
+    console.log('IN INSTACLONE',typeof user_id,typeof feed_id);
     return db.run(`UPDATE posts SET comments = '${comments}' WHERE feed_id = ${feed_id} and user_id = ${user_id}`)
+    .then((stmt) => {
+      db.all(`SELECT * FROM posts WHERE user_id = ${user_id}`).then( res => {
+        resolve(res);
+      })
+    })
+  })
 };
 
-// instaClone.editPost = (newTale,feed_id,user_id) => {
-//   return db.run(`UPDATE posts SET comments = "${newTale}" WHERE feed_id = ${feed_id} and user_id = ${user_id}`)
-//   return db.run(`UPDATE posts SET comments = "${newTale}" WHERE feed_id = ${feed_id} and user_id = ${user_id}`)
-// }
 
 // Delete a particular post
 instaClone.deletePost = (user_id, feed_id) => {
