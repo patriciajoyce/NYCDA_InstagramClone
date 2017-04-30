@@ -1,5 +1,5 @@
 (function() {
-  // console.log(login);
+  
   const GET = (url) => {
     return new Promise((resolve, reject) => {
       const http = new XMLHttpRequest();
@@ -35,6 +35,7 @@
       http.send(JSON.stringify(data));
     });
   } //POST
+
 
   const PUT = (url, data) => {
     return new Promise((resolve, reject) => {
@@ -75,6 +76,7 @@
   } // DELETE
 
 
+//REGISTER USER
   const signUpusername = document.querySelector('.js-signUpUserName');
   const signUpemail = document.querySelector('.js-signUpEmail');
   const signUppassword = document.querySelector('.js-signUpPassword');
@@ -94,13 +96,14 @@
       }).then((data) => {
         console.log(data)
         if (data.success) {
-          window.location.href = '/profile.html'
+          window.location.href = '/'
         }
       });
     });
   }
+//__END REGISTER USER
 
-
+//LOGIN USER
   const loginUserName = document.querySelector('.js-loginUserName');
   const loginPassword = document.querySelector('.js-loginPassword');
   const loginSubmit = document.querySelector('.js-loginSubmit')
@@ -120,25 +123,47 @@
           localStorage.setItem('user_id', data.id);
           localStorage.setItem('username', data.username);
           if (data.success) {
-            window.location.href = '/home.html'
+            window.location.href = 'home.html'
           }
         })
 
     })
   }
+//___END LOGIN
 
+
+//RENDER HOMPAGE
+  const homePage = () => {
+    const userId = localStorage.getItem('user_id')
+    console.log(userId);
+    GET('/api/' + userId + '/following')
+      .then((posts) => {
+        renderFeed(posts);
+      });
+
+    const renderFeed = (posts) => {
+
+
+
+    }
+
+
+  }
+
+//__END HOMEPAGE RENDER
+
+
+//LOG USER OUT
   const logoutBtn = document.querySelector('.js-logout');
   if (logoutBtn !== null) {
     logoutBtn.addEventListener('click', (e) => {
       console.log('clicked logout!');
       logout();
-
-
     })
   }
 
 
-  function logout() {
+  const logout = () => {
     GET('/loginAuth/logout')
       .then((data) => {
         console.log('logout data :', data);
@@ -146,5 +171,5 @@
         window.location.href = '/'
       })
   };
-
+///___END LOG OUT
 })();
