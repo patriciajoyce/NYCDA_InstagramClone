@@ -144,6 +144,7 @@ router.post('/:user_id/activity', Auth.authenticate('local',{failureRedirect:'/'
 //     })
 // })
 
+//edit a particular post
 router.put('/:user_id/update_post/:feed_id',Auth.authenticate('local',{failureRedirect:'/'}),(req, res) => {
   const user_id = parseInt(req.params.user_id, 10);
   const feed_id = parseInt(req.params.feed_id, 10);
@@ -203,6 +204,7 @@ router.post('/:user_id/follows/:followed_id',Auth.authenticate('local',{failureR
       res.status(401);
     });
 });
+
 
 //Unfollow a certain user
 router.delete('/:user_id/unfollows/:followed_id', Auth.authenticate('local',{failureRedirect:'/'}),(req,res) => {

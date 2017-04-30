@@ -1,5 +1,5 @@
 (function() {
-  
+
   const GET = (url) => {
     return new Promise((resolve, reject) => {
       const http = new XMLHttpRequest();
@@ -96,7 +96,7 @@
       }).then((data) => {
         console.log(data)
         if (data.success) {
-          window.location.href = '/'
+          window.location.href = '/profile.html'
         }
       });
     });
@@ -123,7 +123,7 @@
           localStorage.setItem('user_id', data.id);
           localStorage.setItem('username', data.username);
           if (data.success) {
-            window.location.href = 'home.html'
+            window.location.href = '/home.html'
           }
         })
 
@@ -148,6 +148,15 @@
     }
 
 
+  }
+
+//PROFILE PAGE
+  const profile = () => {
+    const userId = localStorage.getItem('user_id')
+		GET('/api/user/' + userId)
+			.then((posts) => {
+				renderFeed(posts);
+			});
   }
 
 //__END HOMEPAGE RENDER
