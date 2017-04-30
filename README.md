@@ -5,7 +5,7 @@ Documentation of Instagram assignment as discussed between Team Oz-some during 4
 April 25 Tuesday
 
 ## Contributors/Feature Owners
-- Elena - FrontEnd Framework (html5)
+- Elena - FrontEnd Framework (semantic-ui)
 - Joy - Server/API (express.js)
 - Oz - Database/Model (SQLite)
 
