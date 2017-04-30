@@ -51,8 +51,9 @@ router.get('/user/:user_id', (req, res) => {
 
 //get all of your followers feed
 
-router.get('/following'), Auth.authenticate('local',{failureRedirect:'/'}), (req, res) => {
-  // const id = parseInt(req.params.user_id, 10);
+router.get('/:user_id/following'), Auth.authenticate('local',{failureRedirect:'/'}), (req, res) => {
+  const id = parseInt(req.params.user_id, 10);
+  console.log(req.session.passport.user);
   instaClone.getFollowers(id)
     .then((data) => {
       res.header('Content-Type', 'application/json');
@@ -105,8 +106,8 @@ router.get('/allUsers', (req, res) => {
 
 
 //create a new post for currUser
-router.post('/activity', Auth.authenticate('local',{failureRedirect:'/'}),(req, res) => {
-  // const user_id = parseInt(req.params.user_id, 10);
+router.post('/:user_id/activity', Auth.authenticate('local',{failureRedirect:'/'}),(req, res) => {
+  const user_id = parseInt(req.params.user_id, 10);
   console.log('IN POST/1',user_id);
   instaClone.createNewPost(user_id, req.body)
     .then((data) => {
@@ -143,8 +144,8 @@ router.post('/activity', Auth.authenticate('local',{failureRedirect:'/'}),(req, 
 //     })
 // })
 
-router.put('/update_post/:feed_id',Auth.authenticate('local',{failureRedirect:'/'}),(req, res) => {
-  // const user_id = parseInt(req.params.user_id, 10);
+router.put('/:user_id/update_post/:feed_id',Auth.authenticate('local',{failureRedirect:'/'}),(req, res) => {
+  const user_id = parseInt(req.params.user_id, 10);
   const feed_id = parseInt(req.params.feed_id, 10);
     const comments = req.body.comments
     console.log('HERE',user_id, feed_id, comments)
@@ -164,8 +165,8 @@ router.put('/update_post/:feed_id',Auth.authenticate('local',{failureRedirect:'/
 });
 
 // Delete a particular post
-router.delete('/delete_post/:feed_id', Auth.authenticate('local',{failureRedirect:'/'}),(req, res) => {
-    // const user_id = parseInt(req.params.user_id, 10);
+router.delete('/:user_id/delete_post/:feed_id', Auth.authenticate('local',{failureRedirect:'/'}),(req, res) => {
+    const user_id = parseInt(req.params.user_id, 10);
     const feed_id = parseInt(req.params.feed_id, 10);
     instaClone.deletePost(user_id, feed_id)
         .then((data) => {
@@ -185,8 +186,8 @@ router.delete('/delete_post/:feed_id', Auth.authenticate('local',{failureRedirec
 
 
 // Follow a user..how currUser will follow a particular user get their feed
-router.post('/follows/:followed_id',Auth.authenticate('local',{failureRedirect:'/'}), (req, res) => {
-  // const user_id = parseInt(req.params.user_id, 10);
+router.post('/:user_id/follows/:followed_id',Auth.authenticate('local',{failureRedirect:'/'}), (req, res) => {
+  const user_id = parseInt(req.params.user_id, 10);
   const followed_id = parseInt(req.params.followed_id, 10);
   instaClone.follow_A_User(user_id, followed_id, req.body)
     .then((data) => {
@@ -204,8 +205,8 @@ router.post('/follows/:followed_id',Auth.authenticate('local',{failureRedirect:'
 });
 
 //Unfollow a certain user
-router.delete('/unfollows/:followed_id', Auth.authenticate('local',{failureRedirect:'/'}),(req,res) => {
-  // const user_id = parseInt(req.params.user_id, 10);
+router.delete('/:user_id/unfollows/:followed_id', Auth.authenticate('local',{failureRedirect:'/'}),(req,res) => {
+  const user_id = parseInt(req.params.user_id, 10);
   const followed_id = parseInt(req.params.followed_id, 10);
   instaClone.unFollow_A_User(user_id, followed_id, req.body)
     .then((data) => {
