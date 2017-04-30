@@ -3,37 +3,43 @@ CREATE TABLE users(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT NOT NULL,
     email TEXT NOT NULL,
-    password TEXT NOT NULL
+    password TEXT NOT NULL,
+    profile_pic TEXT
 );
 CREATE TABLE follows(
     user_id INTEGER NOT NULL,
-    followed_id INTEGER,
-    FOREIGN KEY(user_id) REFERENCES users(id)
+    followed_id INTEGER
 );
-CREATE TABLE activities(
+CREATE TABLE posts(
     feed_id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER NOT NULL,
     image_url TEXT NOT NULL,
     comments CHAR(180),
-    created DATETIME TEXT DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY(user_id) REFERENCES users(id)
+    created DATETIME TEXT DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT into users (username, email, password) VALUES ('Oz', 'ozz@email.com', 'passsssword');
-INSERT into users (username, email, password) VALUES ('Dani', 'dani@email.com', 'passsssword2');
+INSERT into users (username, email, password, profile_pic) VALUES ('Oz', 'ozz@email.com', 'passsssword', 'https://upload.wikimedia.org/wikipedia/en/1/17/Batman-BenAffleck.jpg');
+INSERT into users (username, email, password, profile_pic) VALUES ('Dani', 'dani@email.com', 'passsssword2', 'http://www.scifiwright.com/wp-content/uploads/2015/07/bruce-timm-batgirl.jpg');
+INSERT into users (username, email, password, profile_pic) VALUES ('Ju', 'dani@email.com', 'passsssword2', 'http://www.scifiwright.com/wp-content/uploads/2015/07/bruce-timm-batgirl.jpg');
 
 INSERT into follows (user_id, followed_id) VALUES (1,2);
 INSERT into follows (user_id, followed_id) VALUES (2,1);
 
-INSERT into activities (user_id, image_url, comments) VALUES (1, 'https://photos.photos.com/photos/101569/pexels-image-101569.jpeg', 'Hard ass code');
-INSERT into activities (user_id, image_url, comments) VALUES (2, 'https://photos.photos.com/photos/299345/pexels-image-299345.jpeg', 'sleep for the weak');
+
+INSERT into posts (user_id, image_url, comments) VALUES (1, 'http://thecookful.com/wp-content/uploads/2016/01/beer-pairings-feature-680-337x262.jpg', 'Wings are the bestest');
+INSERT into posts (user_id, image_url, comments) VALUES (1, 'http://thecookful.com/wp-content/uploads/2016/01/beer-pairings-feature-680-337x262.jpg', 'So many wings');
+INSERT into posts (user_id, image_url, comments) VALUES (1, 'http://thecookful.com/wp-content/uploads/2016/01/beer-pairings-feature-680-337x262.jpg', 'Breakfast');
+INSERT into posts (user_id, image_url, comments) VALUES (1, 'http://thecookful.com/wp-content/uploads/2016/01/beer-pairings-feature-680-337x262.jpg', 'Second breakfast');
+
+INSERT into posts (user_id, image_url, comments) VALUES (2, 'https://www.budgetbytes.com/wp-content/uploads/2016/04/Skillet-Cheeseburger-Pasta-H-280x280.jpg', 'mmmm ... pasta');
+INSERT into posts (user_id, image_url, comments) VALUES (2, 'https://www.budgetbytes.com/wp-content/uploads/2016/04/Skillet-Cheeseburger-Pasta-H-280x280.jpg', 'Leftovers!');
+INSERT into posts (user_id, image_url, comments) VALUES (2, 'https://www.budgetbytes.com/wp-content/uploads/2016/04/Skillet-Cheeseburger-Pasta-H-280x280.jpg', 'So simple and good');
+INSERT into posts (user_id, image_url, comments) VALUES (2, 'https://www.budgetbytes.com/wp-content/uploads/2016/04/Skillet-Cheeseburger-Pasta-H-280x280.jpg', 'Ok, getting kind of sick of pasta');
 
 -- DOWN
 DROP TABLE users;
 DROP TABLE follows;
-DROP TABLE activities;
-
-
+DROP TABLE posts;
 
 -- SELECT followed_id as follows
 --         activities.image_url as image
