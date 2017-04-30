@@ -101,4 +101,4 @@ authApp.use((request, response, next) => {
 });
 
 
-module.exports = authApp;
+module.exports = {authApp, passport};

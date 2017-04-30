@@ -2,7 +2,7 @@ const express = require('express');
 const db = require('sqlite');
 const API = require('./apiRoutes');
 const signup = require('./signup')
-const Auth = require('./authRoutes')
+const Auth = require('./authRoutes').authApp
 
 const app = express();
 const port = 1133;
