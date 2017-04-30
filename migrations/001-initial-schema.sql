@@ -7,16 +7,14 @@ CREATE TABLE users(
 );
 CREATE TABLE follows(
     user_id INTEGER NOT NULL,
-    followed_id INTEGER,
-    FOREIGN KEY(user_id) REFERENCES users(id)
+    followed_id INTEGER
 );
 CREATE TABLE posts(
     feed_id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER NOT NULL,
     image_url TEXT NOT NULL,
     comments CHAR(180),
-    created DATETIME TEXT DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY(user_id) REFERENCES users(id)
+    created DATETIME TEXT DEFAULT CURRENT_TIMESTAMP
 );
 
 INSERT into users (username, email, password) VALUES ('Oz', 'ozz@email.com', 'passsssword');
@@ -32,6 +30,7 @@ INSERT into posts (user_id, image_url, comments) VALUES (2, 'https://photos.phot
 DROP TABLE users;
 DROP TABLE follows;
 DROP TABLE posts;
+
 
 
 
