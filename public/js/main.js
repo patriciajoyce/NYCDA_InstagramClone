@@ -131,114 +131,115 @@
     }
     //___END LOGIN
 
+    if (location.pathname === '/home.html') {
 
-   if (location.pathname === '/home.html') {
+        //RENDER HOMEPAGE
+        const userId = localStorage.getItem('user_id')
+        console.log(' this is uid on homepage :', userId);
 
-   //RENDER HOMEPAGE
-     // const homePage = () => {
-       const userId = localStorage.getItem('user_id')
-       console.log(' this is uid on homepage :',userId);
+        GET('/api/' + userId + '/following')
+            .then((posts) => {
+                console.log('return from get req')
+                console.log('this is data :', posts)
+                renderFeed(posts);
+            });
 
-       GET('/api/' + userId + '/following')
-         .then((posts) => {
-           console.log('return from get req')
-           console.log('this is data :',posts)
-           renderFeed(posts);
-         });
+        function renderFeed(posts) {
+            const container = document.querySelector('.js-main');
+            container.innerHTML = ""
 
-       function renderFeed(posts) {
-         const container = document.querySelector('.js-main');
-         container.innerHTML = ""
+            for (const post of posts.user) {
+                const card = document.createElement('div');
+                card.classList.add('ui', 'centered', 'card')
+                card.innerHTML = `
+                          <div class="content">
+                            <div class="right floated meta">14h</div>
+                            <img class="ui avatar image" src="${post.ProfilePic}"> ${post.Username}
+                          </div>
+                          <div class="image">
+                            <img src="${post.Image}">
+                          </div>
+                          <div class="content">
+                          <div class="description">
+                              ${post.Chronicle}
+                            </div>
+                            </br>
+                               <span class="right floated">
+                                 <i class="heart red outline icon js-heart-${post.FeedId}"></i>
+                                </span>
 
-         for (const post of posts.user) {
-           const card = document.createElement('div');
-           card.classList.add('ui', 'card')
-           card.innerHTML = `
-    <div class="content">
-       <div class="right floated meta"></div>
-       <img class="ui avatar image" src="${post.ProfilePic}"> ${post.Username}
-     </div>
-     <div class="image">
-       <img src="${post.Image}">
-     </div>
-     <div class="content">
-       <div class="description">
-       ${post.Chronicle}
-       </div>
-       </br>
-       <span class="right floated">
-         <i class="heart red outline icon js-heart-${post.FeedId}"></i>
-       </span>
-     </div>
-           `;
-
-           container.appendChild(card);
-         } // for in loop
-   }  // render
-
-
-   //__END HOMEPAGE RENDER
-   } // home.html
+                            <i class="comment icon"></i>
+                            3 comments
+                          </div>
+                          <div class="extra content">
+                            <div class="ui large transparent left icon input">
+                              <i class="heart outline icon"></i>
+                              <input type="text" placeholder="Add Comment...">
+                            </div>
+                          </div>
 
 
+        `;
 
-   if (location.pathname === 'profile.html') {
-
-     localStorage.getItem('user_id')
-     console.log(' this is uid on homepage :',userId);
-
-       GET('/api/user/' + userId)
-         .then((posts) => {
-           console.log('return from get req')
-           console.log(posts)
-           renderFeed(posts);
-         });
+                container.appendChild(card);
+            } // for in loop
+        } // render
 
 
-       function renderFeed(data) {
-         const container = document.querySelector('.js-main');
-         container.innerHTML = "";
-
-         for (const post of data.user) {
-           const card = document.createElement('div');
-           card.classList.add('ui', 'card');
-           card.innerHTML = `
-    <div class="image">
-       <img src="/images/avatar2/large/kristy.png">
-       <h2>Username</h2>
-       </div>
-     <div class="content">
-       <a class="header">FirstName LastName</a>
-       <div class="meta">
-         <span class="date">Joined May 2017</span>
-       </div>
-       <div class="description">
-         Kristy is an art director living in New York.
-       </div>
-     </div>
-   <div class="extra content">
-     <a>
-       <i class="user icon"></i>
-       22 Friends
-     </a>
-     <button class="ui button">
-         Follow
-     </button>
-   </div>
-           `;
-         }  // for of
+        //__END HOMEPAGE RENDER
+    } // home.html
 
 
 
-       } // render
+ //RENDER PROFILE
+
+if (location.pathname === '/profile.html') {
+
+const userId = localStorage.getItem('user_id')
+console.log(' this is uid on profile page :',userId);
+
+   GET('/api/user/' + userId)
+    .then((posts) => {
+      console.log('return from uid get req');
+      console.log('data from get/user/uid: ',posts);
+      renderFeed(posts);
+    });
 
 
+  function renderFeed(data) {
+    const user = data.user;
+    const container = document.querySelector('.js-main');
+    container.innerHTML = "";
 
-   }  // profile.html
+    for (const post of user) {
+      const card = document.createElement('div');
+      card.classList.add('ui','centered', 'card');
+      card.innerHTML = `
+<div class="content">
+<div class="right floated meta"></div>
+<img class="ui avatar image" src="${post.ProfilePic}"> ${post.Username}
+</div>
+<div class="image">
+<img src="${post.Image}">
+</div>
+<div class="content">
+<div class="description">
+${post.Chronicle}
+</div>
+</div>
+      `;
+
+      container.appendChild(card);
+    }  // for of
+
+  } // render
+
+}  // profile.html
+
 
 
     //LOG USER OUT
-    const logoutBtn = document.querySelector('.js-logout');
+    const logoutBtn = document.querySelector('#js-logout');
     if (logoutBtn !== null) {
         logoutBtn.addEventListener('click', (e) => {
             console.log('clicked logout!');

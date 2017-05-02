@@ -9,6 +9,7 @@ const instaClone = {};
 instaClone.getAllUsersAndFeeds = () => {
   return db.all(`SELECT users.id AS id,
     users.username AS Username,
+    users.profile_pic AS ProfilePic,
     posts.feed_id AS Series_ID,
     posts.image_url AS Image,
     posts.comments AS Chronicle,
@@ -26,6 +27,7 @@ instaClone.getAllUsersAndFeeds = () => {
 instaClone.getUser = (user_id) => {
   return db.all(`SELECT
     users.username AS Username,
+    users.profile_pic AS ProfilePic,
     posts.feed_id AS Series,
     posts.image_url AS Image,
     posts.comments AS Chronicle,
@@ -43,6 +45,7 @@ instaClone.getUser = (user_id) => {
 instaClone.getFollowers = (currUser_id) => {
  return db.all (`SELECT
   users.username AS Username,
+  users.profile_pic AS ProfilePic,
   posts.image_url AS Image,
   posts.comments AS Chronicle,
   posts.created As Posted
@@ -60,6 +63,7 @@ console.log(instaClone.getFollowers);
 instaClone.getOnePost = (feed_id) => {
     return db.all(`SELECT
                     users.username AS Username,
+                    users.profile_pic AS ProfilePic,
                     posts.image_url AS Image,
                     posts.comments AS Chronicle,
                     posts.created
@@ -94,9 +98,9 @@ instaClone.getUsersOnly = () => {
 
 //creates a new user to the app
 instaClone.createNewUser = (request) => {
-  const {username, email, password} = request;
-  return db.run(`INSERT INTO users(username, email, password) VALUES (?,?,?)`, [username, email, password])
-};
+    const {username, email, password} = request;
+    return db.run(`INSERT INTO users(username, email, password) VALUES (?,?,?)`, [username, email, password])
+  };
 //_______________________________________
 
 //creates a new post for currUser
