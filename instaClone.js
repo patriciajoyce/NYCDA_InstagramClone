@@ -99,7 +99,8 @@ instaClone.getUsersOnly = () => {
 //creates a new user to the app
 instaClone.createNewUser = (request) => {
     const {username, email, password} = request;
-    return db.run(`INSERT INTO users(username, email, password) VALUES (?,?,?)`, [username, email, password])
+    return db.run(`INSERT INTO users(username, email, password,profile_pic) VALUES (?,?,?,?)`, [username, email, password,'https://i.redditmedia.com/5VsiebQqQnTnfGNGU7MmJ2rk0VPHuE91ucRWpsg0qJs.jpg?w=320&s=20c8615c1462e0ce5c02a3e2dc6c8390'])
+
   };
 //_______________________________________
 
