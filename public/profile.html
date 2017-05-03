@@ -31,20 +31,25 @@
 	</header>
 
 
-  <div class="ui piled segment">
-  <h2 class="ui header">Make a post</h2>
-  <form class="ui reply form">
-    <div class="field">
-      <textarea></textarea>
-    </div>
-    <div class="ui blue labeled submit icon button js-submit">
-     <i class="send outline icon"></i>Submit
-    </div>
-    <button class="ui instagram right floated button js-upload">
- <i class="instagram icon"></i>
- Upload Photo
+  <div class="ui raised very padded text container segment">
+		<div class="ui right aligned segment">
+  <h2 class="title">Create a Post</h2>
+</div>
+		<p class="title">
+			Upload an Image:
+		</p>
+			 <br>
+			<input type="file" class="js-fileElem" multiple accept="image/*" >
+		<div class="ui form">
+		  <div class="field">
+		    <label class="title">Choose to comment</label>
+		    <textarea class="js-textArea"></textarea>
+				<button class="ui right floated instagram button js-fileSelect js-send">
+  <i class="instagram icon"></i>
+  Submit
 </button>
-  </form>
+		  </div>
+</div>
 </div>
 
 
