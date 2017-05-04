@@ -19,7 +19,7 @@ CREATE TABLE posts(
 );
 
 INSERT into users (username, email, password, profile_pic) VALUES ('Oz', 'ozz@email.com', 'password', 'https://upload.wikimedia.org/wikipedia/en/1/17/Batman-BenAffleck.jpg');
-INSERT into users (username, email, password, profile_pic) VALUES ('Dani', 'dani@email.com', 'passsssword2', 'http://www.scifiwright.com/wp-content/uploads/2015/07/bruce-timm-batgirl.jpg');
+INSERT into users (username, email, password, profile_pic) VALUES ('Dani', 'dani@email.com', 'passsssword2', 'https://upload.wikimedia.org/wikipedia/en/thumb/9/93/Wonder_Woman.jpg/250px-Wonder_Woman.jpg');
 INSERT into users (username, email, password, profile_pic) VALUES ('Ju', 'dani@email.com', 'passsssword2', 'http://www.scifiwright.com/wp-content/uploads/2015/07/bruce-timm-batgirl.jpg');
 
 INSERT into follows (user_id, followed_id) VALUES (1,2);

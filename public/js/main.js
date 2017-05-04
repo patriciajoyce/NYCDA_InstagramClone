@@ -314,7 +314,7 @@
 
       for (const post of user) {
         const card = document.createElement('div');
-        card.classList.add('ui', 'centered', 'card');
+        card.classList.add('ui', 'centered', 'card', `js-feed_id-${post.feed_id}`);
         card.innerHTML = `
 <div class="content">
 <div class="right floated meta"></div>
@@ -325,12 +325,15 @@
 </div>
 <div class="content">
 <div class="description">
-${post.Chronicle}
+<input class="js-comment" style='border:none; background-color:white;outline:none' value'=${post.Chronicle}></input>
 </div>
+<br>
+<br>
+<br>
 <div class="extra content">
       <span class="right floated mods">
-      	<i class="edit icon js-edit"></i>
-        <i class="trash outline icon js-delete"></i>
+      	<button class="js-edit" style = 'border:none; background-color:white;outline:none'><i class="edit icon"></i></button>
+        <button class="js-delete" style = 'border:none; background-color:white;outline:none'><i class="trash outline icon"></i></button>
       </span>
   </div>
 </div>
@@ -338,17 +341,50 @@ ${post.Chronicle}
 
         container.appendChild(card);
 
+        const updateComm = document.querySelector('.js-comment');
+              updateComm.addEventListener('keydown', (e) => {
+                console.log(e);
+                  const {feed_id} = post;
+                  if (e.keyCode === 13) {
 
+                      PUT('/api/' + userId + '/update_post/' + feed_id, { comments: updateComm.value })
+                          .then(() => {
+                              GET('/api/user/' + userId)
+                                  .then((data) => {
+                                      render(data);
+                              })
+                          })
+                          .catch((err) => {
+                              console.log(err);
+                          })
+                  }
+              }); // updateComm
 
+              const edit = document.querySelector(`.js-edit`);
+                edit.addEventListener('click', (e) => {
 
-
+                }); // edit icon event listenter
 
 
       } // for of
 
+      // const editPost = () => {
+      //   const comment = div.querySelector('.js-comment');
+      //
+      //   description.setAttribute('disabled', 'disabled');
+      //   PUT('/api/' + userId + '/activity', {
+      //     comments: comment.value,
+      //     image_url: imageURL
+      //   }).then((data) => {
+      //     // console.log(data)
+      //     description.removeAttribute('disabled');
+      //     description.value = '';
+      //   });
+      // }
     } // render
 
   } // profile.html
+
 
 
 
