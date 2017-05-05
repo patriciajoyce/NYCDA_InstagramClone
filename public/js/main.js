@@ -47,7 +47,7 @@
           const jsonData = JSON.parse(http.responseText);
           resolve(jsonData);
         } catch (e) {
-          reject(e);
+          reject(e)
         }
       } // onload
 
@@ -98,7 +98,7 @@
         if (data.success) {
           window.location.href = '/'
         }
-      });
+      })
     });
   }
   //__END REGISTER USER
@@ -134,6 +134,7 @@
   if (location.pathname === '/home.html') {
 
     //RENDER HOMEPAGE
+
     const userId = localStorage.getItem('user_id')
     console.log(' this is uid on homepage :', userId);
 
@@ -141,7 +142,7 @@
       .then((posts) => {
         console.log('return from get req')
         console.log('this is data :', posts)
-        renderFeed(posts);
+        renderFeed(posts)
       });
 
     function renderFeed(posts) {
@@ -273,7 +274,6 @@
     }); // upload files
     const textArea = document.querySelector('.js-textArea');
     const send = document.querySelector('.js-send');
-
     send.addEventListener('click', (e) => {
       e.preventDefault();
       let fireImg = localStorage.getItem('img_url');
@@ -285,13 +285,13 @@
         .then(() => {
           textArea.value = "";
           GET('/api/user/' + userId)
-            .then((data) => {
-              renderFeed(data);
+            .then((post) => {
+              renderFeed(post);
             })
         })
         .catch((e) => {
           alert(e)
-        });
+        })
     });
 
 
@@ -303,18 +303,20 @@
       .then((posts) => {
         console.log('return from uid get req');
         console.log('data from get/user/uid: ', posts);
-        renderFeed(posts);
+        renderFeed(posts)
       });
 
 
     function renderFeed(data) {
-      const user = data.user;
+      // console.log('renderFeed', data,data.update)
+      const user = data.user || data.update;
+      // console.log(user,"THIS IS DATA USER");
       const container = document.querySelector('.js-main');
       container.innerHTML = "";
 
       for (const post of user) {
         const card = document.createElement('div');
-        card.classList.add('ui', 'centered', 'card', `js-feed_id-${post.feed_id}`);
+        card.classList.add('ui', 'centered', 'card', `js-post-${post.feed_id}`);
         card.innerHTML = `
 <div class="content">
 <div class="right floated meta"></div>
@@ -325,65 +327,130 @@
 </div>
 <div class="content">
 <div class="description">
-<input class="js-comment" style='border:none; background-color:white;outline:none' value'=${post.Chronicle}></input>
+<input type="text" class="js-comment" style='border:none; background-color:white;outline:none;width:100%;height:75px;font-size:14pt;word-break:break-all'value="${post.Chronicle}"></input>
 </div>
 <br>
 <br>
 <br>
 <div class="extra content">
       <span class="right floated mods">
-      	<button class="js-edit" style = 'border:none; background-color:white;outline:none'><i class="edit icon"></i></button>
-        <button class="js-delete" style = 'border:none; background-color:white;outline:none'><i class="trash outline icon"></i></button>
+      	<button class="js-edit-${post.feed_id}" style = 'border:none; background-color:white;outline:none'><i class="edit icon"></i></button>
+        <button class="js-delete-${post.feed_id}" style = 'border:none; background-color:white;outline:none'><i class="trash outline icon"></i></button>
       </span>
   </div>
 </div>
       `;
-
+        // console.log({post}, typeof post.feed_id,post.Username);
         container.appendChild(card);
 
-        const updateComm = document.querySelector('.js-comment');
-              updateComm.addEventListener('keydown', (e) => {
-                console.log(e);
-                  const {feed_id} = post;
-                  if (e.keyCode === 13) {
+        const postId = localStorage.setItem('post_id', post.list);
+        const feed_id = post.feed_id
+        const edit = document.querySelector(`.js-edit-${post.feed_id}`);
+        edit.addEventListener('click', (e) => {
+          console.log('foobar', card)
+          e.stopPropagation();
 
-                      PUT('/api/' + userId + '/update_post/' + feed_id, { comments: updateComm.value })
-                          .then(() => {
-                              GET('/api/user/' + userId)
-                                  .then((data) => {
-                                      render(data);
-                              })
-                          })
-                          .catch((err) => {
-                              console.log(err);
-                          })
-                  }
-              }); // updateComm
+          const updateComm = document.querySelector('.js-comment');
+          const oldValue = updateComm.value;
+          updateComm.setAttribute('disabled', 'disabled');
+          PUT('/api/' + userId + '/updatepost/' + feed_id, {
+              comments: updateComm.value
+            })
+            .then((data) => {
+              // console.log(1, data)
+              updateComm.removeAttribute('disabled');
+            })
+            .catch((e) => {
+              updateComm.removeAttribute('disabled');
+              updateComm.value = oldValue;
+              updateComm.style.border = '1px solid red'
+              console.log(e);
+            });
+        });
 
-              const edit = document.querySelector(`.js-edit`);
-                edit.addEventListener('click', (e) => {
-
-                }); // edit icon event listenter
-
-
+        const deletePost = document.querySelector(`.js-delete-${post.feed_id}`)
+        console.log(deletePost, "THIS IS DELETE BTN");
+        deletePost.addEventListener('click', (e) => {
+          // console.log(e);
+          DELETE('/api/' + userId + '/deletePost/' + feed_id)
+            .then((data) => {
+              GET('/api/user/' + userId)
+                .then((data) => {
+                  console.log(1, data)
+                  renderFeed(data);
+                })
+                .catch((err) => {
+                  console.log(err);
+                })
+            })
+        })
       } // for of
-
-      // const editPost = () => {
-      //   const comment = div.querySelector('.js-comment');
-      //
-      //   description.setAttribute('disabled', 'disabled');
-      //   PUT('/api/' + userId + '/activity', {
-      //     comments: comment.value,
-      //     image_url: imageURL
-      //   }).then((data) => {
-      //     // console.log(data)
-      //     description.removeAttribute('disabled');
-      //     description.value = '';
-      //   });
-      // }
     } // render
+  }; // profile.html
 
-  } // profile.html
+
+
+
+  if (location.pathname === '/findFriends.html') {
+    // const userId = localStorage.getItem('user_id')
+    //
+    // console.log(userId);
+
+    GET('/api/allUsers')
+      .then((data) => {
+        console.log('HERE ARE MY USERS', data, data.users);
+        renderUsers()
+      })
+
+    function renderUsers(data) {
+
+      const container = document.querySelector('.js-main');
+      container.innerHTML = "";
+      // const users = data.users
+      console.log(users);
+      for (const users of users) {
+        const card = document.createElement('div');
+        card.classList.add('ui', 'centered', 'cards')
+        card.innerHTML = `
+
+    <div class="card">
+      <div class="content">
+        <img  class="ui avatar right floated image" src="${post.ProfilePic}">
+        <div class="header">
+         ${post.Username}
+        </div>
+        <div class="meta">
+          Friends of Veronika
+        </div>
+        <div class="description">
+          Elliot requested permission to view your contact details
+        </div>
+      </div>
+      <div class="extra content">
+        <div class="ui two buttons">
+          <div class="ui basic green button">Follow</div>
+          <div class="ui basic red button">Unfollow</div>
+        </div>
+      </div>
+    </div>  `
+
+        //
+        // GET('/api/allUsers')
+        //   .then((data) => {
+        //     console.log(data);
+        //     renderUsers(data)
+        //   })
+
+
+      };
+
+
+    }
+
+
+
+
+  }
 
 
 

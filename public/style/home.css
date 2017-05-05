@@ -3,7 +3,8 @@ header{
 }
 
 #app .card{
-  width: 35%;
+  height: 55%;
+  width: 30%;
   margin-bottom: 3%;
  border: 1px solid black;
 }

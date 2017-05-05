@@ -127,19 +127,19 @@ router.post('/:user_id/activity', (req, res) => {
 
 
 //edit a particular post
-router.put('/:user_id/update_post/:feed_id', (req, res) => {
+router.put('/:user_id/updatepost/:feed_id', (req, res) => {
     const user_id = parseInt(req.params.user_id, 10);
     const feed_id = parseInt(req.params.feed_id, 10);
     const comments = req.body.comments
     // console.log(comments);
-    console.log('HERE', user_id, feed_id, comments)
+    console.log('HERE IN ROUTER.PUT', user_id, feed_id, comments)
     instaClone.editPost(user_id, feed_id, comments)
         .then(feed => {
-            console.log("ORIGIN: ", feed);
+            // console.log("ORIGIN: ", feed);
             res.header('Content-Type', 'application/json');
             res.send({
                 update: feed
-                // soMuchActivities: feed.length
+                // post: feed.length
             });
         })
         // .then((data) => {
@@ -159,7 +159,7 @@ router.delete('/:user_id/deletePost/:feed_id', (req, res) => {
         .then((data) => {
             res.header('Content-Type', 'application/json');
             res.send({
-                followedUsers: data,
+                user: data,
                 soMuchActivities: data.length
             });
         })
