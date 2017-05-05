@@ -130,7 +130,10 @@ instaClone.editPost = (user_id, feed_id, comments) => {
   })
 };
 
-
+//Delete/Deactivate Account
+instaClone.deleteUser = (user_id) => {
+  return db.run (`DELETE FROM users WHERE id = ${user_id}`)
+}
 
 // Delete a particular post
 instaClone.deletePost = (user_id, feed_id) => {
