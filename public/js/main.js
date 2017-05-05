@@ -399,25 +399,26 @@
     GET('/api/allUsers')
       .then((data) => {
         console.log('HERE ARE MY USERS', data, data.users);
-        renderUsers()
+        renderUsers(data)
       })
 
     function renderUsers(data) {
 
       const container = document.querySelector('.js-main');
       container.innerHTML = "";
-      // const users = data.users
-      console.log(users);
-      for (const users of users) {
+      const users = data.users
+      console.log('INRENDERUSERS', 2, users);
+      for (const data of users) {
+        console.log('IN FOR LOOP', 3, users);
         const card = document.createElement('div');
         card.classList.add('ui', 'centered', 'cards')
         card.innerHTML = `
 
     <div class="card">
       <div class="content">
-        <img  class="ui avatar right floated image" src="${post.ProfilePic}">
+
         <div class="header">
-         ${post.Username}
+         ${data.username}
         </div>
         <div class="meta">
           Friends of Veronika
@@ -427,30 +428,31 @@
         </div>
       </div>
       <div class="extra content">
-        <div class="ui two buttons">
-          <div class="ui basic green button">Follow</div>
-          <div class="ui basic red button">Unfollow</div>
+        <div class="ui button">
+        <button class="ui active centered button">
+<i class="user icon"></i>
+Follow
+</button>
         </div>
       </div>
-    </div>  `
+    </div>  `;
+
+        container.appendChild(card);
 
         //
-        // GET('/api/allUsers')
+        // GET('/api/users/feed')
         //   .then((data) => {
         //     console.log(data);
         //     renderUsers(data)
         //   })
 
 
-      };
+      } //for loop
 
 
-    }
+    } //render
 
-
-
-
-  }
+  } //end Find Page
 
 
 
