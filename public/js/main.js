@@ -461,7 +461,7 @@
             .then((data) => {
               console.log('return from get req')
               // console.log('this is data :', posts)
-              renderUsers(data)
+              // renderUsers(data)
             })
 
           })
