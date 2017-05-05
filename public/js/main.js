@@ -76,7 +76,7 @@
   } // DELETE
 
 
-//REGISTER USER
+  //REGISTER USER
   const signUpusername = document.querySelector('.js-signUpUserName');
   const signUpemail = document.querySelector('.js-signUpEmail');
   const signUppassword = document.querySelector('.js-signUpPassword');
@@ -96,14 +96,14 @@
       }).then((data) => {
         console.log(data)
         if (data.success) {
-          window.location.href = '/profile.html'
+          window.location.href = '/'
         }
       });
     });
   }
-//__END REGISTER USER
+  //__END REGISTER USER
 
-//LOGIN USER
+  //LOGIN USER
   const loginUserName = document.querySelector('.js-loginUserName');
   const loginPassword = document.querySelector('.js-loginPassword');
   const loginSubmit = document.querySelector('.js-loginSubmit')
@@ -129,19 +129,18 @@
 
     })
   }
-//___END LOGIN
+  //___END LOGIN
 
-if (location.pathname === '/home.html') {
+  if (location.pathname === '/home.html') {
 
-//RENDER HOMEPAGE
-  // const homePage = () => {
+    //RENDER HOMEPAGE
     const userId = localStorage.getItem('user_id')
-    console.log(' this is uid on homepage :',userId);
+    console.log(' this is uid on homepage :', userId);
 
     GET('/api/' + userId + '/following')
       .then((posts) => {
         console.log('return from get req')
-        console.log('this is data :',posts)
+        console.log('this is data :', posts)
         renderFeed(posts);
       });
 
@@ -151,90 +150,246 @@ if (location.pathname === '/home.html') {
 
       for (const post of posts.user) {
         const card = document.createElement('div');
-        card.classList.add('ui', 'card')
+        card.classList.add('ui', 'centered', 'card')
         card.innerHTML = `
- <div class="content">
-    <div class="right floated meta"></div>
-    <img class="ui avatar image" src="${post.ProfilePic}"> ${post.Username}
-  </div>
-  <div class="image">
-    <img src="${post.Image}">
-  </div>
-  <div class="content">
-    <div class="description">
-    ${post.Chronicle}
-    </div>
-    </br>
-    <span class="right floated">
-      <i class="heart red outline icon js-heart-${post.FeedId}"></i>
-    </span>
-  </div>
+                          <div class="content">
+                            <div class="right floated meta">14h</div>
+                            <img class="ui avatar image" src="${post.ProfilePic}"> ${post.Username}
+                          </div>
+                          <div class="image">
+                            <img src="${post.Image}">
+                          </div>
+                          <div class="content">
+                          <div class="description">
+                              ${post.Chronicle}
+                            </div>
+                            </br>
+                               <span class="right floated">
+                                 <i class="heart red outline icon js-heart-${post.FeedId}"></i>
+                                </span>
+
+                            <i class="comment icon"></i>
+                            3 comments
+                          </div>
+                          <div class="extra content">
+                            <div class="ui large transparent left icon input">
+                              <i class="heart outline icon"></i>
+                              <input type="text" placeholder="Add Comment...">
+                            </div>
+                          </div>
+
+
         `;
 
         container.appendChild(card);
       } // for in loop
-}  // render
+    } // render
 
 
-//__END HOMEPAGE RENDER
-} // home.html
+    //__END HOMEPAGE RENDER
+  } // home.html
 
 
 
-if (location.pathname === 'profile.html') {
+  //RENDER PROFILE
 
-  localStorage.getItem('user_id')
-  console.log(' this is uid on homepage :',userId);
+  if (location.pathname === '/profile.html') {
+
+    // file upload / firebase code
+    const validate = () => {
+      throw new Error('This is a required arg');
+    }; // validate
+
+    const uploadFiles = (
+      fileSelectImg = validate(),
+      fileElemSel = validate(),
+      onFileChanged = validate(),
+      onClicked = validate()
+    ) => {
+      // select anchor tag and file input
+      const fileSelect = document.querySelector(fileSelectImg);
+      const fileElem = document.querySelector(fileElemSel);
+
+      if (fileSelect === null || fileElem === null) {
+        throw new Error('Required DOM elements not found by querySelector');
+      }
+
+      // click handler for fileElem
+      fileSelect.addEventListener('click', (e) => {
+        e.preventDefault();
+        onClicked();
+      });
+
+      // change handler for fileSelect
+      fileElem.addEventListener('change', (e) => onFileChanged(e.target.files))
+    } // uploadFiles
+
+
+    // Initialize Firebase
+    const config = {
+      apiKey: "AIzaSyCYSQN7lMggCWFsiwTW9AGtX79wHiiXi3E",
+      authDomain: "insatclone.firebaseapp.com",
+      databaseURL: "https://insatclone.firebaseio.com",
+      projectId: "insatclone",
+      storageBucket: "insatclone.appspot.com",
+      messagingSenderId: "841829381507"
+    };
+    // Name of file storage ref "folder"
+    const FILE_STORAGE_REF = 'images';
+
+    // initialize firebase
+    firebase.initializeApp(config);
+    // Get a reference to the storage service, which is used to create references in your storage bucket
+    const storageRef = firebase.storage().ref().child(FILE_STORAGE_REF);
+
+    let filesToUpload = [];
+
+    uploadFiles('.js-fileSelect', '.js-fileElem', (files) => {
+      filesToUpload = filesToUpload.concat(Array.from(files));
+      // console.log('files to upload :',filesToUpload)
+      if (!storageRef) {
+        throw new Error('Storage Ref not set!');
+      }
+      const fileUploads = filesToUpload.map((currFile) => {
+        // we store the name of the file as a storage ref
+        const fileRef = storageRef.child(currFile.name);
+        // we return a promise where we first "put" or upload the file
+        // and then once the upload is complete, we return promise with
+        // download URL string of the file we uploaded
+        return fileRef.put(currFile).then((snapshot) => snapshot.downloadURL);
+      });
+
+      Promise.all(fileUploads).then((items) => {
+        // console.log('snapshot.downloadURL :',items);
+        localStorage.setItem('img_url', items[0])
+        filesToUpload = [];
+
+      });
+
+
+    }, () => {
+
+
+    }); // upload files
+    const textArea = document.querySelector('.js-textArea');
+    const send = document.querySelector('.js-send');
+
+    send.addEventListener('click', (e) => {
+      e.preventDefault();
+      let fireImg = localStorage.getItem('img_url');
+
+      POST('/api/' + userId + '/activity', {
+          image_url: fireImg,
+          comments: textArea.value
+        })
+        .then(() => {
+          textArea.value = "";
+          GET('/api/user/' + userId)
+            .then((data) => {
+              renderFeed(data);
+            })
+        })
+        .catch((e) => {
+          alert(e)
+        });
+    });
+
+
+
+    const userId = localStorage.getItem('user_id')
+    console.log(' this is uid on profile page :', userId);
 
     GET('/api/user/' + userId)
       .then((posts) => {
-        console.log('return from get req')
-        console.log(posts)
+        console.log('return from uid get req');
+        console.log('data from get/user/uid: ', posts);
         renderFeed(posts);
       });
 
 
     function renderFeed(data) {
+      const user = data.user;
       const container = document.querySelector('.js-main');
       container.innerHTML = "";
 
-      for (const post of data.user) {
+      for (const post of user) {
         const card = document.createElement('div');
-        card.classList.add('ui', 'card');
+        card.classList.add('ui', 'centered', 'card', `js-feed_id-${post.feed_id}`);
         card.innerHTML = `
- <div class="image">
-    <img src="/images/avatar2/large/kristy.png">
-    <h2>Username</h2>
-    </div>
-  <div class="content">
-    <a class="header">FirstName LastName</a>
-    <div class="meta">
-      <span class="date">Joined May 2017</span>
-    </div>
-    <div class="description">
-      Kristy is an art director living in New York.
-    </div>
-  </div>
-<div class="extra content">
-  <a>
-    <i class="user icon"></i>
-    22 Friends
-  </a>
-  <button class="ui button">
-      Follow
-  </button>
+<div class="content">
+<div class="right floated meta"></div>
+<img class="ui avatar image" src="${post.ProfilePic}"> ${post.Username}
 </div>
-        `;
-      }  // for of
+<div class="image">
+<img src="${post.Image}">
+</div>
+<div class="content">
+<div class="description">
+<input class="js-comment" style='border:none; background-color:white;outline:none' value'=${post.Chronicle}></input>
+</div>
+<br>
+<br>
+<br>
+<div class="extra content">
+      <span class="right floated mods">
+      	<button class="js-edit" style = 'border:none; background-color:white;outline:none'><i class="edit icon"></i></button>
+        <button class="js-delete" style = 'border:none; background-color:white;outline:none'><i class="trash outline icon"></i></button>
+      </span>
+  </div>
+</div>
+      `;
+
+        container.appendChild(card);
+
+        const updateComm = document.querySelector('.js-comment');
+              updateComm.addEventListener('keydown', (e) => {
+                console.log(e);
+                  const {feed_id} = post;
+                  if (e.keyCode === 13) {
+
+                      PUT('/api/' + userId + '/update_post/' + feed_id, { comments: updateComm.value })
+                          .then(() => {
+                              GET('/api/user/' + userId)
+                                  .then((data) => {
+                                      render(data);
+                              })
+                          })
+                          .catch((err) => {
+                              console.log(err);
+                          })
+                  }
+              }); // updateComm
+
+              const edit = document.querySelector(`.js-edit`);
+                edit.addEventListener('click', (e) => {
+
+                }); // edit icon event listenter
 
 
+      } // for of
 
+      // const editPost = () => {
+      //   const comment = div.querySelector('.js-comment');
+      //
+      //   description.setAttribute('disabled', 'disabled');
+      //   PUT('/api/' + userId + '/activity', {
+      //     comments: comment.value,
+      //     image_url: imageURL
+      //   }).then((data) => {
+      //     // console.log(data)
+      //     description.removeAttribute('disabled');
+      //     description.value = '';
+      //   });
+      // }
     } // render
 
-}
+  } // profile.html
 
-//LOG USER OUT
-  const logoutBtn = document.querySelector('.js-logout');
+
+
+
+  //LOG USER OUT
+  const logoutBtn = document.querySelector('#js-logout');
   if (logoutBtn !== null) {
     logoutBtn.addEventListener('click', (e) => {
       console.log('clicked logout!');
@@ -251,5 +406,5 @@ if (location.pathname === 'profile.html') {
         window.location.href = '/'
       })
   };
-///___END LOG OUT
+  ///___END LOG OUT
 })();
