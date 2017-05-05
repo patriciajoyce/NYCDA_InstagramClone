@@ -390,67 +390,109 @@
 
 
 
-
+//RENDER Find Some Friends
   if (location.pathname === '/findFriends.html') {
-    // const userId = localStorage.getItem('user_id')
+    const userId = localStorage.getItem('user_id')
     //
     // console.log(userId);
 
     GET('/api/allUsers')
       .then((data) => {
         console.log('HERE ARE MY USERS', data, data.users);
-        renderUsers()
+        renderUsers(data)
       })
 
     function renderUsers(data) {
 
       const container = document.querySelector('.js-main');
       container.innerHTML = "";
-      // const users = data.users
-      console.log(users);
-      for (const users of users) {
+      const users = data.users
+      console.log('INRENDERUSERS', 2, users);
+      for (const data of users) {
+        console.log('IN FOR LOOP', 3, users);
         const card = document.createElement('div');
-        card.classList.add('ui', 'centered', 'cards')
+        card.classList.add('ui', 'centered', 'cards',`js-userId-${data.id}`)
         card.innerHTML = `
 
     <div class="card">
       <div class="content">
-        <img  class="ui avatar right floated image" src="${post.ProfilePic}">
+     <img class="ui avatar image" src="${data.profile_pic}">
         <div class="header">
-         ${post.Username}
+         ${data.username}
         </div>
         <div class="meta">
-          Friends of Veronika
+          ${data.email}
         </div>
         <div class="description">
-          Elliot requested permission to view your contact details
+
         </div>
       </div>
       <div class="extra content">
-        <div class="ui two buttons">
-          <div class="ui basic green button">Follow</div>
-          <div class="ui basic red button">Unfollow</div>
+      <div class="ui centered buttons">
+        <button class="ui labeled icon blue button js-follow-${data.id}">
+    <i class="left thumbs outline up icon"></i>
+    Follow
+  </button>
+  <button class="ui disabled button">
+    Or
+  </button>
+  <button class="ui right labeled icon red button js-unfollow-${data.id}">
+    Unfollow
+    <i class="right thumbs outline down icon"></i>
+  </button>
         </div>
       </div>
-    </div>  `
-
-        //
-        // GET('/api/allUsers')
-        //   .then((data) => {
-        //     console.log(data);
-        //     renderUsers(data)
-        //   })
+    </div>  `;
 
 
-      };
+        container.appendChild(card);
+
+        const postId = localStorage.setItem('followedId', data.id);
+        const followedId = data.id
+       const followBtn = document.querySelector(`.js-follow-${data.id}`)
+
+       console.log(followBtn);
+        followBtn.addEventListener('click',(e) => {
+          POST('/api/' + userId + '/follows/' + followedId,{
+            followedUsers: data
+          })
+          .then(()=>{
+            GET('/api/' + userId + '/following')
+            .then((data) => {
+              console.log('return from get req')
+              // console.log('this is data :', posts)
+              // renderUsers(data)
+            })
+
+          })
+        }) //
+
+        const unfollowBtn = document.querySelector(`.js-unfollow-${data.id}`)
+          unfollowBtn.addEventListener('click',(e) => {
+            DELETE('/api/' + userId + '/unfollows/' + followedId,{
+              followedUsers: data,
+              soMuchActivities: data.length
+            })
+            .then(()=>{
+              GET('/api/' + userId + '/following')
+              .then((data) => {
+                console.log('return from get req')
+                // console.log('this is data :', posts)
+                // renderUsers(data)
+              })
+
+            })
 
 
-    }
+          })
 
 
+      }//for loop
 
 
-  }
+    } //render
+
+  } //end Find Page
 
 
 
