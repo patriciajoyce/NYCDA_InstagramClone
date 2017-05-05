@@ -9,7 +9,8 @@ const instaClone = {};
 instaClone.getAllUsersAndFeeds = () => {
   return db.all(`SELECT users.id AS id,
     users.username AS Username,
-    posts.feed_id AS Series_ID,
+    users.profile_pic AS ProfilePic,
+    posts.feed_id,
     posts.image_url AS Image,
     posts.comments AS Chronicle,
     posts.created AS Posted
@@ -26,7 +27,8 @@ instaClone.getAllUsersAndFeeds = () => {
 instaClone.getUser = (user_id) => {
   return db.all(`SELECT
     users.username AS Username,
-    posts.feed_id AS Series,
+    users.profile_pic AS ProfilePic,
+    posts.feed_id,
     posts.image_url AS Image,
     posts.comments AS Chronicle,
     posts.created AS Posted
@@ -43,6 +45,7 @@ instaClone.getUser = (user_id) => {
 instaClone.getFollowers = (currUser_id) => {
  return db.all (`SELECT
   users.username AS Username,
+  users.profile_pic AS ProfilePic,
   posts.image_url AS Image,
   posts.comments AS Chronicle,
   posts.created As Posted
@@ -60,6 +63,7 @@ console.log(instaClone.getFollowers);
 instaClone.getOnePost = (feed_id) => {
     return db.all(`SELECT
                     users.username AS Username,
+                    users.profile_pic AS ProfilePic,
                     posts.image_url AS Image,
                     posts.comments AS Chronicle,
                     posts.created
@@ -94,9 +98,10 @@ instaClone.getUsersOnly = () => {
 
 //creates a new user to the app
 instaClone.createNewUser = (request) => {
-  const {username, email, password} = request;
-  return db.run(`INSERT INTO users(username, email, password) VALUES (?,?,?)`, [username, email, password])
-};
+    const {username, email, password} = request;
+    return db.run(`INSERT INTO users(username, email, password,profile_pic) VALUES (?,?,?,?)`, [username, email, password,'https://i.redditmedia.com/5VsiebQqQnTnfGNGU7MmJ2rk0VPHuE91ucRWpsg0qJs.jpg?w=320&s=20c8615c1462e0ce5c02a3e2dc6c8390'])
+
+  };
 //_______________________________________
 
 //creates a new post for currUser
@@ -124,6 +129,7 @@ instaClone.editPost = (user_id, feed_id, comments) => {
     })
   })
 };
+
 
 
 // Delete a particular post
