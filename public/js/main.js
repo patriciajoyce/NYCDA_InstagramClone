@@ -447,7 +447,7 @@
 
         container.appendChild(card);
 
-        const postId = localStorage.setItem('followedId', data.id);
+        // const postId = localStorage.setItem('followedId', data.id);
         const followedId = data.id
        const followBtn = document.querySelector(`.js-follow-${data.id}`)
 
@@ -461,7 +461,7 @@
             .then((data) => {
               console.log('return from get req')
               // console.log('this is data :', posts)
-              // renderUsers(data)
+              renderUsers(data)
             })
 
           })
