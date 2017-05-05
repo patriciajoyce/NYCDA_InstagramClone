@@ -358,23 +358,32 @@
             .then((data) => {
               console.log(1, data)
               updateComm.removeAttribute('disabled');
-              // updateComm.value = '';
-              // return GET('/api/user/' + userId);
             })
-            // .then((posts) => {
-            //   console.log('return from uid get req');
-            //   console.log('data from get/user/uid: ', posts);
-            //   renderFeed(posts)
-            //
-            //   return posts;
-            // })
             .catch((e) => {
               updateComm.removeAttribute('disabled');
               updateComm.value = oldValue;
               updateComm.style.border = '1px solid red'
               console.log(e);
-            })
-        })
+            });
+        });
+
+          const deletePost = document.querySelector(`.js-delete-${post.feed_id}`)
+            console.log(deletePost,"THIS IS DELETE BTN");
+          deletePost.addEventListener('click',(e)=>{
+            // console.log(e);
+              DELETE('/api/' + userId + '/deletePost/' + feed_id)
+              .then(() => {
+                            GET('/api/user/' + userId)
+                                .then((data) => {
+                                    renderFeed(data);
+                            })
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                        })
+          })
+
+
       } // for of
     } // render
 
