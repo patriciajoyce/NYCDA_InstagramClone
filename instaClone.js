@@ -10,7 +10,7 @@ instaClone.getAllUsersAndFeeds = () => {
   return db.all(`SELECT users.id AS id,
     users.username AS Username,
     users.profile_pic AS ProfilePic,
-    posts.feed_id AS Series_ID,
+    posts.feed_id,
     posts.image_url AS Image,
     posts.comments AS Chronicle,
     posts.created AS Posted
@@ -28,7 +28,7 @@ instaClone.getUser = (user_id) => {
   return db.all(`SELECT
     users.username AS Username,
     users.profile_pic AS ProfilePic,
-    posts.feed_id AS Series,
+    posts.feed_id,
     posts.image_url AS Image,
     posts.comments AS Chronicle,
     posts.created AS Posted
@@ -129,6 +129,7 @@ instaClone.editPost = (user_id, feed_id, comments) => {
     })
   })
 };
+
 
 
 // Delete a particular post
