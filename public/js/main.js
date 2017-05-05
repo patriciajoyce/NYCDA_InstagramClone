@@ -308,14 +308,15 @@
 
 
     function renderFeed(data) {
-      console.log('renderFeed', data)
+      // console.log('renderFeed', data,data.update)
       const user = data.user || data.update;
+      // console.log(user,"THIS IS DATA USER");
       const container = document.querySelector('.js-main');
       container.innerHTML = "";
 
       for (const post of user) {
         const card = document.createElement('div');
-        card.classList.add('ui', 'centered', 'card',`js-post-${post.feed_id}`);
+        card.classList.add('ui', 'centered', 'card', `js-post-${post.feed_id}`);
         card.innerHTML = `
 <div class="content">
 <div class="right floated meta"></div>
@@ -326,7 +327,7 @@
 </div>
 <div class="content">
 <div class="description">
-<input class="js-comment" style='border:none; background-color:white;outline:none' value="${post.Chronicle}"></input>
+<input type="text" class="js-comment" style='border:none; background-color:white;outline:none;width:100%;height:75px;font-size:14pt;word-break:break-all'value="${post.Chronicle}"></input>
 </div>
 <br>
 <br>
@@ -356,7 +357,7 @@
               comments: updateComm.value
             })
             .then((data) => {
-              console.log(1, data)
+              // console.log(1, data)
               updateComm.removeAttribute('disabled');
             })
             .catch((e) => {
@@ -367,32 +368,89 @@
             });
         });
 
-          const deletePost = document.querySelector(`.js-delete-${post.feed_id}`)
-            console.log(deletePost,"THIS IS DELETE BTN");
-          deletePost.addEventListener('click',(e)=>{
-            // console.log(e);
-              DELETE('/api/' + userId + '/deletePost/' + feed_id)
-              .then(() => {
-                            GET('/api/user/' + userId)
-                                .then((data) => {
-                                    renderFeed(data);
-                            })
-                        })
-                        .catch((err) => {
-                            console.log(err);
-                        })
-          })
-
-
+        const deletePost = document.querySelector(`.js-delete-${post.feed_id}`)
+        console.log(deletePost, "THIS IS DELETE BTN");
+        deletePost.addEventListener('click', (e) => {
+          // console.log(e);
+          DELETE('/api/' + userId + '/deletePost/' + feed_id)
+            .then((data) => {
+              GET('/api/user/' + userId)
+                .then((data) => {
+                  console.log(1, data)
+                  renderFeed(data);
+                })
+                .catch((err) => {
+                  console.log(err);
+                })
+            })
+        })
       } // for of
     } // render
-
-  } // profile.html
-
+  }; // profile.html
 
 
 
 
+  if (location.pathname === '/findFriends.html') {
+    // const userId = localStorage.getItem('user_id')
+    //
+    // console.log(userId);
+
+    GET('/api/allUsers')
+      .then((data) => {
+        console.log('HERE ARE MY USERS', data, data.users);
+        renderUsers()
+      })
+
+    function renderUsers(data) {
+
+      const container = document.querySelector('.js-main');
+      container.innerHTML = "";
+      // const users = data.users
+      console.log(users);
+      for (const users of users) {
+        const card = document.createElement('div');
+        card.classList.add('ui', 'centered', 'cards')
+        card.innerHTML = `
+
+    <div class="card">
+      <div class="content">
+        <img  class="ui avatar right floated image" src="${post.ProfilePic}">
+        <div class="header">
+         ${post.Username}
+        </div>
+        <div class="meta">
+          Friends of Veronika
+        </div>
+        <div class="description">
+          Elliot requested permission to view your contact details
+        </div>
+      </div>
+      <div class="extra content">
+        <div class="ui two buttons">
+          <div class="ui basic green button">Follow</div>
+          <div class="ui basic red button">Unfollow</div>
+        </div>
+      </div>
+    </div>  `
+
+        //
+        // GET('/api/allUsers')
+        //   .then((data) => {
+        //     console.log(data);
+        //     renderUsers(data)
+        //   })
+
+
+      };
+
+
+    }
+
+
+
+
+  }
 
 
 

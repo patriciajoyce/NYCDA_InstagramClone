@@ -159,7 +159,7 @@ router.delete('/:user_id/deletePost/:feed_id', (req, res) => {
         .then((data) => {
             res.header('Content-Type', 'application/json');
             res.send({
-                followedUsers: data,
+                user: data,
                 soMuchActivities: data.length
             });
         })
