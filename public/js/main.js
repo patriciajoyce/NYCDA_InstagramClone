@@ -357,7 +357,7 @@
               comments: updateComm.value
             })
             .then((data) => {
-              // console.log(1, data)
+              console.log(1, data)
               updateComm.removeAttribute('disabled');
             })
             .catch((e) => {
@@ -369,9 +369,7 @@
         });
 
         const deletePost = document.querySelector(`.js-delete-${post.feed_id}`)
-        console.log(deletePost, "THIS IS DELETE BTN");
         deletePost.addEventListener('click', (e) => {
-          // console.log(e);
           DELETE('/api/' + userId + '/deletePost/' + feed_id)
             .then((data) => {
               GET('/api/user/' + userId)
@@ -384,13 +382,31 @@
                 })
             })
         })
+
       } // for of
+
+
+
     } // render
+    const deactivate = document.querySelector('.js-deactivate-btn')
+    deactivate.addEventListener('click', (e) => {
+      DELETE('/api/' + userId + '/deactivate', {
+        user_id: userId
+      })
+    
+      .then((data) => {
+        localStorage.setItem('user_id', null);
+        window.location.href = '/'
+      })
+
+    })
+
+
   }; // profile.html
 
 
 
-//RENDER Find Some Friends
+  //RENDER Find Some Friends
   if (location.pathname === '/findFriends.html') {
     const userId = localStorage.getItem('user_id')
     //
@@ -411,7 +427,7 @@
       for (const data of users) {
         console.log('IN FOR LOOP', 3, users);
         const card = document.createElement('div');
-        card.classList.add('ui', 'centered', 'cards',`js-userId-${data.id}`)
+        card.classList.add('ui', 'centered', 'cards', `js-userId-${data.id}`)
         card.innerHTML = `
 
     <div class="card">
@@ -449,45 +465,46 @@
 
         // const postId = localStorage.setItem('followedId', data.id);
         const followedId = data.id
-       const followBtn = document.querySelector(`.js-follow-${data.id}`)
+        console.log(data.id)
+        const followBtn = document.querySelector(`.js-follow-${data.id}`)
 
-       console.log(followBtn);
-        followBtn.addEventListener('click',(e) => {
-          POST('/api/' + userId + '/follows/' + followedId,{
-            followedUsers: data
-          })
-          .then(()=>{
-            GET('/api/' + userId + '/following')
-            .then((data) => {
-              console.log('return from get req')
-              // console.log('this is data :', posts)
-              // renderUsers(data)
+        console.log(followBtn);
+        followBtn.addEventListener('click', (e) => {
+          POST('/api/' + userId + '/follows/' + followedId, {
+              followedUsers: data
             })
+            .then(() => {
+              GET('/api/' + userId + '/following')
+                .then((data) => {
+                  console.log('return from get req')
+                  // console.log('this is data :', posts)
+                  // renderUsers(data)
+                })
 
-          })
+            })
         }) //
 
         const unfollowBtn = document.querySelector(`.js-unfollow-${data.id}`)
-          unfollowBtn.addEventListener('click',(e) => {
-            DELETE('/api/' + userId + '/unfollows/' + followedId,{
+        unfollowBtn.addEventListener('click', (e) => {
+          DELETE('/api/' + userId + '/unfollows/' + followedId, {
               followedUsers: data,
               soMuchActivities: data.length
             })
-            .then(()=>{
+            .then(() => {
               GET('/api/' + userId + '/following')
-              .then((data) => {
-                console.log('return from get req')
-                // console.log('this is data :', posts)
-                // renderUsers(data)
-              })
+                .then((data) => {
+                  console.log('return from get req')
+                  // console.log('this is data :', posts)
+                  // renderUsers(data)
+                })
 
             })
 
 
-          })
+        })
 
 
-      }//for loop
+      } //for loop
 
 
     } //render
