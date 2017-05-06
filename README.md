@@ -16,11 +16,11 @@
 
 1. Clone the repository
 
-2. Start server: 
-		-- open Terminal
-		-- cd to folder
-		-- npm install
-		-- npm start
+2. Start server
+	-- open Terminal
+	-- cd to folder
+	-- npm install
+	-- npm start
 		
 3. Welcome to instaOZsome! -> Open index.html file to start on login page
 	
