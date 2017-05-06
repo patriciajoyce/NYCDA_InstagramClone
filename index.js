@@ -21,7 +21,7 @@ app.use('/api', API);
 
 Promise.resolve()
     .then(() => db.open(DB_NAME, { Promise }))
-    // .then(() => db.migrate({ force: 'last' }))
+    .then(() => db.migrate({ force: 'last' }))
     .then(() => app.listen(port))
     .then(() => {console.log(`Server started on port ${port}`)})
     .catch(err => console.error(err.stack))
