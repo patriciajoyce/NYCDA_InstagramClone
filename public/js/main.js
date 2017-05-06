@@ -385,13 +385,23 @@
 
       } // for of
 
-      const deactivate = document.querySelector('.js-deactivate-btn')
-      deactivate.addEventListener('click',(e) => {
-        DELETE('/api/'+ userId + '/deactivate')
-      })
 
 
     } // render
+    const deactivate = document.querySelector('.js-deactivate-btn')
+    deactivate.addEventListener('click', (e) => {
+      DELETE('/api/' + userId + '/deactivate', {
+        user_id: userId
+      })
+    
+      .then((data) => {
+        localStorage.setItem('user_id', null);
+        window.location.href = '/'
+      })
+
+    })
+
+
   }; // profile.html
 
 
