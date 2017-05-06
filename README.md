@@ -20,14 +20,10 @@
 
 3. Welcome to instaOZsome! -> Open index.html file to start on login page
 	
-	-- Create an account
-
-			-or-
-
-	-- Sign into account:
-		- Username: Oz
-		- Password: password
-
+	-- Create an account -or- Sign into account(use fake account info):
+		-- Username: Oz
+		-- Password: password
+		
 	// find login code in main.js file
 	// option to rmember log in information	
 	// be aware that both username and password are case sensitive //
