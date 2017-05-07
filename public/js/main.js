@@ -390,10 +390,11 @@
     } // render
     const deactivate = document.querySelector('.js-deactivate-btn')
     deactivate.addEventListener('click', (e) => {
+      console.log(e)
       DELETE('/api/' + userId + '/deactivate', {
         user_id: userId
       })
-    
+
       .then((data) => {
         localStorage.setItem('user_id', null);
         window.location.href = '/'
@@ -497,18 +498,10 @@
                   // console.log('this is data :', posts)
                   // renderUsers(data)
                 })
-
             })
-
-
         })
-
-
       } //for loop
-
-
     } //render
-
   } //end Find Page
 
 
