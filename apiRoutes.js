@@ -192,7 +192,7 @@ router.post('/:user_id/follows/:followed_id', (req, res) => {
 });
 
 //Delete/Deactivate Account
-router.delete('/user_id/deactivate', (req, res) => {
+router.delete('/:user_id/deactivate', (req, res) => {
   const user_id = parseInt(req.params.user_id, 10);
   instaClone.deleteUser(user_id, req.body)
     .then((data) => {
