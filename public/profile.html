@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>instaClone</title>
+      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css">
+		<link href="https://fonts.googleapis.com/css?family=Permanent+Marker|Raleway" rel="stylesheet">
+	<link rel="stylesheet" href="/style/home.css">
+   </head>
+   <body id="app">
+	<header>
+		<h1 class="ui horizontal divider header">
+ <i class="camera large retro icon"></i>
+  <div class= "title">Insta OZ-some</div>
+</h1>
+			<div class="ui secondary fluid pointing menu">
+			  <a class="active item">
+			    <h2 class="nav-text">Profile</h2>
+			  </a>
+			  <a class="item" href="/home.html" >
+			    <h4 class="nav-text">Home</h4>
+			  </a>
+			  <a class="item" href="/findFriends.html">
+			    <h4 class="nav-text">Find Some Friends</h4>
+			  </a>
+			  <div class="right menu">
+			    <a class="ui item" id="js-logout" href="/loginAuth/logout">
+			      <h3 class="nav-text">Logout</h3>
+			    </a>
+			  </div>
+			</div>
+	</header>
+
+
+  <div class="ui raised very padded text container segment">
+		<div class="ui right aligned segment js-deactivate-container">
+    <p>
+
+    </p>
+      <div class="ui animated fade left floated button js-deactivate-btn" tabindex="0">
+  <div class="visible content">Deactivate Account</div>
+  <div class="hidden content">
+    Are you sure bro
+  </div>
+</div>
+  <h2 class="title">Create a Post</h2>
+</div>
+		<p class="title">
+			Upload an Image:
+		</p>
+			 <br>
+			<input type="file" class="js-fileElem" multiple accept="image/*" >
+		<div class="ui form">
+		  <div class="field">
+		    <label class="title">Choose to comment</label>
+		    <textarea class="js-textArea"></textarea>
+				<button class="ui right floated instagram button js-fileSelect js-send">
+  <i class="instagram icon"></i>
+  Submit
+</button>
+		  </div>
+</div>
+</div>
+
+
+
+
+
+<!--CONTENNT-->
+ <div class="js-main">
+
+  </div>
+
+
+      <script src="https://www.gstatic.com/firebasejs/3.9.0/firebase.js"></script>
+      <script type="text/javascript" src="./js/main.js"></script>
+   </body>
+</html>
